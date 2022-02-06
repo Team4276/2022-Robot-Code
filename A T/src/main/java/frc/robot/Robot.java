@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.Drivetrain;
+import frc.systems.ShooterControl;
 import frc.utilities.LimitSwitch;
 import frc.utilities.RoboRioPorts;
 
@@ -27,6 +28,9 @@ public class Robot extends TimedRobot {
   public static Timer systemTimer;
   public static LimitSwitch upperLimitSwitch;
   public static LimitSwitch lowerLimitSwitch;
+
+  public static ShooterControl robotShooter;
+  //public static 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -40,8 +44,9 @@ public class Robot extends TimedRobot {
     myRGB = new I2C(I2C.Port.kOnboard, 0);
     myRGB.write(0,0);
     myRGB.write(1,1);
-    upperLimitSwitch = new LimitSwitch(4);
-    lowerLimitSwitch = new LimitSwitch(5);
+    upperLimitSwitch = new LimitSwitch(7);
+    lowerLimitSwitch = new LimitSwitch(6);
+    robotShooter = new ShooterControl(0, 0);
 
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
     RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
@@ -77,6 +82,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("7",myByteArray[7]);
     SmartDashboard.putNumber("8",myByteArray[8]);
     SmartDashboard.putNumber("9",myByteArray[9]);
+    upperLimitSwitch.determineCase();
+    lowerLimitSwitch.determineCase();
+    robotShooter.setShooterMotorSpeed();
   }
   @Override
   public void autonomousInit() {}
@@ -92,8 +100,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    upperLimitSwitch.determineCase();
-    lowerLimitSwitch.determineCase();
+    
   }
 
   /** This function is called once when the robot is disabled. */
