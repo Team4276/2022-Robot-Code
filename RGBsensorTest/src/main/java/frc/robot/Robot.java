@@ -5,23 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.Drivetrain;
 import frc.utilities.RoboRioPorts;
-import frc.utilities.TCS34725_I2C;
-import frc.utilities.TCS34725_I2C.TransferAbortedException;
 
 public class Robot extends TimedRobot {
 
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
   public static Joystick xboxJoystick;
-
-  TCS34725_I2C myRGB;
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -38,26 +32,6 @@ public class Robot extends TimedRobot {
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxJoystick = new Joystick(2);
-
-    myRGB = new TCS34725_I2C(I2C.Port.kOnboard, false);
-    try {
-      myRGB.enable();
-    } catch (TransferAbortedException | InterruptedException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-    try {
-      myRGB.setIntegrationTime(1);
-    } catch (TransferAbortedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    try {
-      myRGB.setGain(200);
-    } catch (TransferAbortedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
 
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
     RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
@@ -79,20 +53,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    TCS34725_I2C.TCSColor myTcsColor = new TCS34725_I2C.TCSColor(0,0,0,0);
-    try {
-      myTcsColor = myRGB.getRawData();
-    } catch (TransferAbortedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-
-    
-    SmartDashboard.putNumber("RGB-C", myTcsColor.getC());
-    SmartDashboard.putNumber("RGB-R", myTcsColor.getR());
-    SmartDashboard.putNumber("RGB-G", myTcsColor.getG());
-    SmartDashboard.putNumber("RGB-B", myTcsColor.getB());
   }
 
   @Override
