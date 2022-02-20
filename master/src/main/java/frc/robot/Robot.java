@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
 import frc.systems.Drivetrain;
+import frc.systems.RgbSensorRunnable;
 import frc.utilities.RoboRioPorts;
 
 public class Robot extends TimedRobot {
@@ -17,6 +18,8 @@ public class Robot extends TimedRobot {
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
   public static Joystick xboxJoystick;
+
+  private static Thread myRgbSensorThread;
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -33,6 +36,10 @@ public class Robot extends TimedRobot {
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxJoystick = new Joystick(2);
+
+    RgbSensorRunnable rbgSensorRunnable = new RgbSensorRunnable();
+    myRgbSensorThread = new Thread(rbgSensorRunnable);
+    myRgbSensorThread.start();
 
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
     RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
