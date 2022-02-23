@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.XboxController;
 import frc.systems.Drivetrain;
 import frc.systems.RgbSensorRunnable;
 import frc.utilities.RoboRioPorts;
@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
 
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
-  public static Joystick xboxJoystick;
+  public static XboxController xboxController;
 
   private static Thread myRgbSensorThread;
 
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
  
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
-    xboxJoystick = new Joystick(2);
+    xboxController = new XboxController(2);
 
     RgbSensorRunnable rbgSensorRunnable = new RgbSensorRunnable();
     myRgbSensorThread = new Thread(rbgSensorRunnable);
