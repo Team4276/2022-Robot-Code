@@ -53,6 +53,7 @@ public class TaskTestAuto extends AutoTask {
             default:
                 break;
         }
+        SmartDashboard.putString("Current step", GetCurrentStep().toString());
     }
 
     @Override
