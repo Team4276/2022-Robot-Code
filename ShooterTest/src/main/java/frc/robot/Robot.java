@@ -10,21 +10,29 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.systems.Drivetrain;
-import frc.systems.RgbSensorRunnable;
+import frc.systems.Intake;
+import frc.systems.ControlShooter;
+import frc.utilities.LimitSwitch;
 import frc.utilities.RoboRioPorts;
 
 public class Robot extends TimedRobot {
 
+  //Declaring all the objects we need to use in this class
+
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
-  public static XboxController xboxController;
-
-  private static Thread myRgbSensorThread;
+  public static Joystick xboxJoystick;
+  public static Intake intake;
+  public static ControlShooter shooterControler;
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
 
   public static Timer systemTimer;
+
+  public static LimitSwitch lowerLimitSwitch;
+  public static LimitSwitch upperLimitSwitch;
+  public static XboxController xboxController;
  
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -37,10 +45,16 @@ public class Robot extends TimedRobot {
     rightJoystick = new Joystick(1);
     xboxController = new XboxController(2);
 
-    RgbSensorRunnable rbgSensorRunnable = new RgbSensorRunnable();
-    myRgbSensorThread = new Thread(rbgSensorRunnable);
-    myRgbSensorThread.start();
+    //limit switch initialization
+    lowerLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_LOWER_SWITCH);
+    upperLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_UPPER_SWITCH);
 
+    //intake motor initalization
+
+    //shooter motor initialization
+    shooterControler = new ControlShooter(RoboRioPorts.CAN_SHOOT_UPPER, RoboRioPorts.CAN_SHOOT_LOWER, RoboRioPorts.CAN_SHOOTER);
+
+    //drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
     RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
     RoboRioPorts.DRIVE_DOUBLE_SOLENOID_FWD, RoboRioPorts.DRIVE_DOUBLE_SOLENOID_REV, RoboRioPorts.DIO_DRIVE_RIGHT_A,
@@ -59,7 +73,15 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+
+    //essential shooter function
+    shooterControler.loadShooter();
+    shooterControler.runShooter();
+    upperLimitSwitch.determineCase();
+    lowerLimitSwitch.determineCase();
+    
+  }
 
   @Override
   public void autonomousInit() {}

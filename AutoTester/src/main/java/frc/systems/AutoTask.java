@@ -22,7 +22,7 @@ public class AutoTask {
         REV_500MS,
         HOOK_UP_500MS,
         HOOK_DOWN_500MS,
-        NUMBER_OF_AUTO_STEPS
+        NUMBER_OF_AUTO_STEPS, SHOW_TEST_STARTED, DELAY_1SEC, SHOW_TEST_ENDED
     };
 
     protected AutoRunner.TASK_ID myTaskID = AutoRunner.TASK_ID.NONE;
@@ -46,6 +46,7 @@ public class AutoTask {
         if (GetCurrentStep() != TASK_STEP.END) {
             myCurrentStepIndex++;
             InitStep(mySteps[myCurrentStepIndex]);
+            
         }
     }
 
