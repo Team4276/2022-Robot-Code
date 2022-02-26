@@ -8,13 +8,14 @@
 
 package frc.systems;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class TaskTestAuto extends AutoTask {
 
     private final TASK_STEP[] stepsForTestAutoTask = {
             TASK_STEP.SHOW_TEST_STARTED,
+            TASK_STEP.DELAY_1SEC,
+            TASK_STEP.DELAY_1SEC,
+            TASK_STEP.DELAY_1SEC,
+            TASK_STEP.DELAY_1SEC,
             TASK_STEP.DELAY_1SEC,
             TASK_STEP.SHOW_TEST_ENDED,
             TASK_STEP.END
@@ -22,32 +23,20 @@ public class TaskTestAuto extends AutoTask {
 
     public TaskTestAuto() {
         super();
-        myTaskID = AutoRunner.TASK_ID.TEST_AUTO;
-        mySteps = stepsForTestAutoTask;
-    }
-
-    private Timer myDelayTimer;
-
-    @Override
-    public void Init() {
-        myDelayTimer = new Timer();
+        taskInit(AutoRunner.TASK_ID.TEST_AUTO, stepsForTestAutoTask);
     }
 
     @Override
-    public void InitStep(TASK_STEP step) {
+    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
+    }
 
-        switch (GetCurrentStep()) {
+    @Override
+    public void stepInit(TASK_STEP step) {
+
+        switch (getCurrentStep()) {
 
             case DELAY_1SEC:
-                myDelayTimer.reset();
-                break;
-
-            case SHOW_TEST_STARTED:
-                SmartDashboard.putString("TEST_AUTO:", "Test Started!");
-                break;
-
-            case SHOW_TEST_ENDED:
-                SmartDashboard.putString("TEST_AUTO:", "Test END");
+                myTimer.setTimer(1.0);
                 break;
 
             default:
@@ -56,14 +45,19 @@ public class TaskTestAuto extends AutoTask {
     }
 
     @Override
-    public Boolean IsCurrentStepComplete() {
-        if (GetCurrentStep() == TASK_STEP.END) {
+    public void stepExit(TASK_STEP step) {
+
+    }
+
+    @Override
+    public Boolean stepIsComplete() {
+        if (getCurrentStep() == TASK_STEP.END) {
             return true;
         }
 
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
             case DELAY_1SEC:
-                return myDelayTimer.advanceIfElapsed(1.0);
+                return myTimer.isExpired();
 
             default:
                 return true;
@@ -71,10 +65,10 @@ public class TaskTestAuto extends AutoTask {
     }
 
     @Override
-    public void DoCurrentStep() {
-        switch (GetCurrentStep()) {
+    public void stepPeriodic() {
+        switch (getCurrentStep()) {
             case FIND_LINE:
-                // TODO: if delay expired, StopTask() and return
+                // TODO: if delay expired, taskStop() and return
 
                 // TODO:
                 // If left sensor has found the line

@@ -8,6 +8,10 @@
 
 package frc.systems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.systems.AutoRunner.TASK_ID;
+import frc.utilities.SoftwareTimer;
+
 public class AutoTask {
 
     public enum TASK_STEP {
@@ -22,52 +26,71 @@ public class AutoTask {
         REV_500MS,
         HOOK_UP_500MS,
         HOOK_DOWN_500MS,
-        NUMBER_OF_AUTO_STEPS
+        SHOW_TEST_STARTED,
+        DELAY_1SEC,
+        SHOW_TEST_ENDED
     };
 
-    protected AutoRunner.TASK_ID myTaskID = AutoRunner.TASK_ID.NONE;
     protected TASK_STEP[] mySteps;
+    protected AutoRunner.TASK_ID myTaskID;
+    protected SoftwareTimer myTimer;
 
     private int myCurrentStepIndex = 0;
 
-    public AutoTask(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
-        myTaskID = id;
-        mySteps = steps;
-    }
-
     public AutoTask() {
+        mySteps = new TASK_STEP[] { TASK_STEP.END };
+        myTaskID = TASK_ID.NONE;
+        myCurrentStepIndex = 0;
     }
 
-    public TASK_STEP GetCurrentStep() {
+    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
+        myTimer = new SoftwareTimer();
+        mySteps = steps;
+        myTaskID = id;
+        myCurrentStepIndex = 0;
+    }
+
+    public TASK_STEP getCurrentStep() {
         return mySteps[myCurrentStepIndex];
     }
 
-    public void GotoNextStep() {
-        if (GetCurrentStep() != TASK_STEP.END) {
+    public int getCurrentStepNumber() {
+        return myCurrentStepIndex;
+    }
+
+    public void gotoNextStep() {
+        if (getCurrentStep() != TASK_STEP.END) {
+            stepExit(mySteps[myCurrentStepIndex]);
             myCurrentStepIndex++;
-            InitStep(mySteps[myCurrentStepIndex]);
+            stepInit(mySteps[myCurrentStepIndex]);
+        }
+        SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+        SmartDashboard.putString("Current step", getCurrentStep().toString());
+    }
+
+    public void taskStop() {
+        while (getCurrentStep() != TASK_STEP.END) {
+            myCurrentStepIndex++;
         }
     }
 
-    public void StopTask() {
-        while (GetCurrentStep() != TASK_STEP.END) {
-            myCurrentStepIndex++;
-        }
+    public Boolean taskIsDone() {
+        return (getCurrentStep() == TASK_STEP.END);
     }
 
-    public void Init() {
-
-    }
-
-    public void InitStep(TASK_STEP step) {
+    public void stepInit(TASK_STEP step) {
 
     }
 
-    public Boolean IsCurrentStepComplete() {
+    public void stepExit(TASK_STEP step) {
+
+    }
+
+    public Boolean stepIsComplete() {
         return true;
     }
 
-    public void DoCurrentStep() {
+    public void stepPeriodic() {
 
     }
 

@@ -30,4 +30,6 @@ public class RoboRioPorts {
 
 	public static final int DIO_UPPER = 4;
 	public static final int DIO_LOWER = 5;
+
+	public static final int DIO_AUTO_CLIMB = 9;
 }

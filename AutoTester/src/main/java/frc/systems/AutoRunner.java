@@ -8,67 +8,54 @@
 
 package frc.systems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AutoRunner {
 
     public enum TASK_ID {
         NONE,
         SHOOT_ONE,
         CLIMB,
-        NUMBER_OF_TASK_ID
+        TEST_AUTO
     };
 
-    private TASK_ID currentTask = TASK_ID.NONE;
-    
-    private AutoTask taskAutoShoot;
-    private TaskClimb taskClimb;
+    private AutoTask currentTask;
 
     public AutoRunner() {
-        currentTask = TASK_ID.NONE;
-
-        taskAutoShoot = new TaskShootOne();
-        taskClimb = new TaskClimb();
+        currentTask = new AutoTask();
+        ;
     }
 
     public void StartTask(TASK_ID id) {
-        currentTask = id;
-        switch (currentTask) {
+        switch (id) {
             case SHOOT_ONE:
-                taskAutoShoot.Init();
+                currentTask = new TaskShootOne();
                 break;
 
             case CLIMB:
-                taskClimb.Init();
+                currentTask = new TaskClimb();
+                break;
+
+            case TEST_AUTO:
+                currentTask = new TaskTestAuto();
                 break;
 
             case NONE:
             default:
-                currentTask = TASK_ID.NONE;
+                currentTask = new AutoTask();
                 break;
         }
+        SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
     }
 
     public void DoCurrentTask() {
-        switch (currentTask) {
-            case SHOOT_ONE:
-                if (taskAutoShoot.IsCurrentStepComplete()) {
-                    taskAutoShoot.GotoNextStep();
-                } else {
-                    taskAutoShoot.DoCurrentStep();
-                }
-                break;
-
-            case CLIMB:
-                if (taskClimb.IsCurrentStepComplete()) {
-                    taskClimb.GotoNextStep();
-                } else {
-                    taskClimb.DoCurrentStep();
-                }
-                break;
-
-            case NONE:
-            default:
-                currentTask = TASK_ID.NONE;
-                break;
+        currentTask.stepPeriodic();
+        if (currentTask.stepIsComplete()) {
+            currentTask.gotoNextStep();
+        }
+        if (currentTask.taskIsDone()) {
+            currentTask = new AutoTask();
+            SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
         }
     }
 }

@@ -8,28 +8,43 @@
 
 package frc.systems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Robot;
+import frc.utilities.RoboRioPorts;
+
 public class TaskClimb extends AutoTask {
 
-    private final TASK_STEP[] stepsForClimbTask = { TASK_STEP.FIND_LINE, TASK_STEP.END };
+    private DigitalInput lineSensor_L;
+
+    private final TASK_STEP[] stepsForClimbTask = {
+            TASK_STEP.FIND_LINE,
+            TASK_STEP.END };
 
     public TaskClimb() {
         super();
-        myTaskID = AutoRunner.TASK_ID.CLIMB;
-        mySteps = stepsForClimbTask;
+        lineSensor_L = new DigitalInput(RoboRioPorts.DIO_AUTO_CLIMB);
+        taskInit(AutoRunner.TASK_ID.CLIMB, stepsForClimbTask);
     }
 
     @Override
-    public void Init() {
+    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
 
     }
 
     @Override
-    public void InitStep(TASK_STEP step) {
+    public void stepInit(TASK_STEP step) {
 
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
+            case DELAY_1SEC:
+                myTimer.setTimer(1.0);
+                break;
 
             case FIND_LINE:
-                // TODO: Set delay for how long to search for line
+                // set delay for how long to search for line
+                myTimer.setTimer(10.0);
+
+                // Drive forward slowly
+                Robot.mDrivetrain.assignMotorPower(0.1, 0.1);
                 break;
 
             default:
@@ -38,42 +53,52 @@ public class TaskClimb extends AutoTask {
     }
 
     @Override
-    public Boolean IsCurrentStepComplete() {
-        if (GetCurrentStep() == TASK_STEP.END) {
+    public void stepExit(TASK_STEP step) {
+        switch (getCurrentStep()) {
+            case FIND_LINE:
+            Robot.mDrivetrain.assignMotorPower(0.0, 0.0);
+            break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public Boolean stepIsComplete() {
+        if (getCurrentStep() == TASK_STEP.END) {
             return true;
         }
 
-        // TODO: return true if soecific button is no longer held down
+        // Continue only if the button is still held down
+        if (!Robot.IsAutoClimbButtonPushed()) {
+            return true;
+        }
 
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
+            case DELAY_1SEC:
+                return myTimer.isExpired();
+
             case FIND_LINE:
-                // TODO: return true if both sensors have found the line
-                break;
+                if (myTimer.isExpired()) {
+                    // Timed out looking for the line
+                    return true;
+                }
+                if (lineSensor_L.get()) {
+                    return true;
+                }
+                return false;
 
             default:
                 return true;
         }
-
-        return true;
     }
 
     @Override
-    public void DoCurrentStep() {
-        switch (GetCurrentStep()) {
+    public void stepPeriodic() {
+        switch (getCurrentStep()) {
             case FIND_LINE:
-                // TODO: if delay expired, StopTask() and return
 
-                // TODO:
-                // If left sensor has found the line
-                // Left motor stop
-                // else
-                // Left motor forward
-
-                // TODO:
-                // If right sensor has found the line
-                // right motor stop
-                // else
-                // right motor forward
                 break;
 
             default:

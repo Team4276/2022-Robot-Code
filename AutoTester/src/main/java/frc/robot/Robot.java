@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import frc.systems.Drivetrain;
 import frc.systems.AutoRunner;
+import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
 
 public class Robot extends TimedRobot {
@@ -51,6 +52,10 @@ public class Robot extends TimedRobot {
     myAutoRunner = new AutoRunner();
   }
 
+  public static Boolean IsAutoClimbButtonPushed() {
+    return leftJoystick.getRawButton(LogJoystick.B2);
+  }
+
   /**
    * This function is called every robot packet, no matter the mode. Use this for
    * items like
@@ -69,7 +74,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    myAutoRunner.StartTask(AutoRunner.TASK_ID.SHOOT_ONE);
+    myAutoRunner.StartTask(AutoRunner.TASK_ID.CLIMB);
   }
 
   /** This function is called periodically during autonomous. */
