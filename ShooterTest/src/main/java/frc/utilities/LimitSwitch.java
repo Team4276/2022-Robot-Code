@@ -32,6 +32,11 @@ public class LimitSwitch extends DigitalInput {
         else
         upperActive = true;
 
+        if (lowerActive == true)
+        lowerActive = false;
+        else 
+        lowerActive = true;
+
         //ocupied = true
         //open = false
         if (upperActive){

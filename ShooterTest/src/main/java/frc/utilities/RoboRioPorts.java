@@ -45,4 +45,6 @@ public class RoboRioPorts {
 
 	public static final int DIO_LOWER_SWITCH = 6;
 	public static final int DIO_UPPER_SWITCH = 7;
+
+	public static final int DIO_LINE_SENSOR = 8;
 }

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.systems.HoodActuator.HoodState;
@@ -17,9 +18,11 @@ public class ControlShooter {
     public static VictorSPX lowerMotor;
     public static TalonSRX shooterMotor;
     
-    private double highShooterPower = -0.45;
-    private double feederPower = 0.6;
+    private double highShooterPower = -0.65;
+    private double feederPower = 0.9;
     private double lowShooterPower = 0.3;
+
+    private Timer timer;
     
 
     public ControlShooter(int upperMotorCANPort, int lowerMotorCANPort, int shooterCANPort ) {
@@ -64,20 +67,13 @@ public class ControlShooter {
 
         //high shooter action
         if(Robot.xboxController.getRawAxis(Xbox.RT)>0.1){
+            
+            shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
+            Timer.delay(.75);
             upperMotor.set(ControlMode.PercentOutput, feederPower);
             lowerMotor.set(ControlMode.PercentOutput, feederPower);
-            shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
+            
         }//end HIGH shoot action
-
-        //this code will not run currently
-        //low shooter action
-        if (HoodActuator.hoodState == HoodState.UP){
-            if(Robot.xboxController.getRawButton(Xbox.RT)){
-                upperMotor.set(ControlMode.PercentOutput, feederPower);
-                lowerMotor.set(ControlMode.PercentOutput, feederPower);
-                shooterMotor.set(ControlMode.PercentOutput, lowShooterPower);
-                }
-        }//end low shoot action
 
         if(Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
             upperMotor.set(ControlMode.PercentOutput, 0);

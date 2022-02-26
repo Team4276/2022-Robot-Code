@@ -17,6 +17,7 @@ import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.ControlShooter;
 import frc.utilities.LimitSwitch;
+import frc.utilities.LineSensor;
 import frc.utilities.RoboRioPorts;
 
 public class Robot extends TimedRobot {
@@ -38,6 +39,8 @@ public class Robot extends TimedRobot {
   public static LimitSwitch lowerLimitSwitch;
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
+
+  public static LineSensor lineSensor;
  
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -65,6 +68,9 @@ public class Robot extends TimedRobot {
     //hood actuator initalization
     hActuator = new HoodActuator(RoboRioPorts.HOOD_SOLENOID);
 
+    //line sensor init
+    //lineSensor = new LineSensor(RoboRioPorts.DIO_LINE_SENSOR);
+
     //drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
     RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
@@ -91,6 +97,7 @@ public class Robot extends TimedRobot {
     upperLimitSwitch.determineCase();
     lowerLimitSwitch.determineCase();
     hActuator.toggleShooterHood();
+    //lineSensor.getSensorData();
 
     
   }
