@@ -21,18 +21,18 @@ public class TaskShootOne extends AutoTask {
 
     public TaskShootOne() {
         super();
-        Init(AutoRunner.TASK_ID.SHOOT_ONE, stepsForShootOneTask);
+        taskInit(AutoRunner.TASK_ID.SHOOT_ONE, stepsForShootOneTask);
     }
 
     @Override
-    public void Init() {
+    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
 
     }
 
     @Override
-    public void InitStep(TASK_STEP step) {
+    public void stepInit(TASK_STEP step) {
 
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
             case DELAY_1SEC:
                 myTimer.setTimer(1.0);
                 break;
@@ -53,11 +53,16 @@ public class TaskShootOne extends AutoTask {
     }
 
     @Override
-    public Boolean IsCurrentStepComplete() {
-        if (GetCurrentStep() == TASK_STEP.END) {
+    public void stepExit(TASK_STEP step) {
+
+    }
+
+    @Override
+    public Boolean stepIsComplete() {
+        if (getCurrentStep() == TASK_STEP.END) {
             return true;
         }
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
             case DELAY_1SEC:
                 return myTimer.isExpired();
 
@@ -70,7 +75,7 @@ public class TaskShootOne extends AutoTask {
                 break;
 
             case STOP_SHOOTER:
-                return true; // Command was sent in InitStep(), nothing else to do
+                return true; // Command was sent in stepInit(), nothing else to do
 
             case ADVANCE_INTAKE:
                 // TODO return false if intake is still advancing
@@ -84,8 +89,8 @@ public class TaskShootOne extends AutoTask {
     }
 
     @Override
-    public void DoCurrentStep() {
-        switch (GetCurrentStep()) {
+    public void stepPeriodic() {
+        switch (getCurrentStep()) {
             case SPIN_UP_SHOOTER:
                 // TODO: change motor speed
                 break;
@@ -98,7 +103,7 @@ public class TaskShootOne extends AutoTask {
                 // TODO return false if intake is still advancing
                 break;
 
-            case STOP_SHOOTER: // Command sent in InitStep(), nothing else to do
+            case STOP_SHOOTER: // Command sent in stepInit(), nothing else to do
             default:
                 break;
         }

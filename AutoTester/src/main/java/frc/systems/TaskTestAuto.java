@@ -23,17 +23,17 @@ public class TaskTestAuto extends AutoTask {
 
     public TaskTestAuto() {
         super();
-        Init(AutoRunner.TASK_ID.TEST_AUTO, stepsForTestAutoTask);
+        taskInit(AutoRunner.TASK_ID.TEST_AUTO, stepsForTestAutoTask);
     }
 
     @Override
-    public void Init() {
+    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
     }
 
     @Override
-    public void InitStep(TASK_STEP step) {
+    public void stepInit(TASK_STEP step) {
 
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
 
             case DELAY_1SEC:
                 myTimer.setTimer(1.0);
@@ -45,12 +45,17 @@ public class TaskTestAuto extends AutoTask {
     }
 
     @Override
-    public Boolean IsCurrentStepComplete() {
-        if (GetCurrentStep() == TASK_STEP.END) {
+    public void stepExit(TASK_STEP step) {
+
+    }
+
+    @Override
+    public Boolean stepIsComplete() {
+        if (getCurrentStep() == TASK_STEP.END) {
             return true;
         }
 
-        switch (GetCurrentStep()) {
+        switch (getCurrentStep()) {
             case DELAY_1SEC:
                 return myTimer.isExpired();
 
@@ -60,10 +65,10 @@ public class TaskTestAuto extends AutoTask {
     }
 
     @Override
-    public void DoCurrentStep() {
-        switch (GetCurrentStep()) {
+    public void stepPeriodic() {
+        switch (getCurrentStep()) {
             case FIND_LINE:
-                // TODO: if delay expired, StopTask() and return
+                // TODO: if delay expired, taskStop() and return
 
                 // TODO:
                 // If left sensor has found the line

@@ -49,11 +49,11 @@ public class AutoRunner {
     }
 
     public void DoCurrentTask() {
-        currentTask.DoCurrentStep();
-        if (currentTask.IsCurrentStepComplete()) {
-            currentTask.GotoNextStep();
+        currentTask.stepPeriodic();
+        if (currentTask.stepIsComplete()) {
+            currentTask.gotoNextStep();
         }
-        if (currentTask.IsTaskDone()) {
+        if (currentTask.taskIsDone()) {
             currentTask = new AutoTask();
             SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
         }

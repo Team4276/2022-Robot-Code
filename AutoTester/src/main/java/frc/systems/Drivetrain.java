@@ -115,13 +115,16 @@ public class Drivetrain {
     }
 
     public void operatorDrive() {
-
+ 
         changeMode();
         checkForGearShift();
+        checkForAuto();
         if (currentMode == DriveMode.ARCADE) {
             currentMode_s = "Arcade";
-        } else {
+        } else if (currentMode == DriveMode.TANK) {
             currentMode_s = "Tank";
+        } else {
+            currentMode_s = "Auto";
         }
 
         double leftY = 0;
@@ -166,11 +169,19 @@ public class Drivetrain {
                 }
                 break;
 
+            case AUTO:
+                // Motors controlled by AutoRunner task(s)
             default:
                 break;
         }
 
         updateTelemetry();
+    }
+
+    private void checkForAuto() {
+       if(Robot.IsAutoClimbButtonPushed()) {
+        currentMode = DriveMode.AUTO;
+       }
     }
 
     /**
@@ -180,7 +191,7 @@ public class Drivetrain {
     public void checkForGearShift() {
         boolean shiftHi = Robot.leftJoystick.getRawButton(HI_SHIFTER);
         boolean shiftLo = Robot.leftJoystick.getRawButton(LO_SHIFTER);
-
+  
         if (shiftHi) {
             currentGear = Gear.HI;
             if (shiftInit) {
@@ -222,7 +233,7 @@ public class Drivetrain {
     }
 
     public enum DriveMode {
-        TANK, ARCADE
+        TANK, ARCADE, AUTO
     }
 
     /**

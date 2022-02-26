@@ -43,53 +43,57 @@ public class AutoTask {
         myCurrentStepIndex = 0;
     }
 
-    public void Init(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
+    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
         myTimer = new SoftwareTimer();
         mySteps = steps;
         myTaskID = id;
         myCurrentStepIndex = 0;
     }
 
-    public TASK_STEP GetCurrentStep() {
+    public TASK_STEP getCurrentStep() {
         return mySteps[myCurrentStepIndex];
     }
 
-    public int GetCurrentStepNumber() {
+    public int getCurrentStepNumber() {
         return myCurrentStepIndex;
     }
 
-    public void GotoNextStep() {
-        if (GetCurrentStep() != TASK_STEP.END) {
+    public void gotoNextStep() {
+        if (getCurrentStep() != TASK_STEP.END) {
             myCurrentStepIndex++;
-            InitStep(mySteps[myCurrentStepIndex]);
+            stepInit(mySteps[myCurrentStepIndex]);
         }
-        SmartDashboard.putNumber("step# ", GetCurrentStepNumber());
-        SmartDashboard.putString("Current step", GetCurrentStep().toString());
+        SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+        SmartDashboard.putString("Current step", getCurrentStep().toString());
     }
 
-    public void StopTask() {
-        while (GetCurrentStep() != TASK_STEP.END) {
+    public void taskStop() {
+        while (getCurrentStep() != TASK_STEP.END) {
             myCurrentStepIndex++;
         }
     }
 
-    public Boolean IsTaskDone() {
-        return (GetCurrentStep() == TASK_STEP.END);
+    public Boolean taskIsDone() {
+        return (getCurrentStep() == TASK_STEP.END);
     }
 
     public void Init() {
 
     }
 
-    public void InitStep(TASK_STEP step) {
+    public void stepInit(TASK_STEP step) {
 
     }
 
-    public Boolean IsCurrentStepComplete() {
+    public void stepExit(TASK_STEP step) {
+
+    }
+
+    public Boolean stepIsComplete() {
         return true;
     }
 
-    public void DoCurrentStep() {
+    public void stepPeriodic() {
 
     }
 
