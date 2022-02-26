@@ -8,22 +8,35 @@
 
 package frc.systems;
 
-public class TaskTestAuto extends AutoTask {
+import frc.utilities.SoftwareTimer;
 
-    private final AutoStep[] stepsForTestAutoTask = {
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepEnd
-    };
+public class StepDelay_1sec extends AutoStep {
+   
+    private SoftwareTimer myTimer;
 
-    public TaskTestAuto() {
-        super();
-        taskInit(AutoRunner.TASK_ID.TEST_AUTO, stepsForTestAutoTask);
+    public StepDelay_1sec() {
+        stepID = AutoStep.STEP_ID.DELAY_1SEC;
     }
+
+    @Override
+    public void stepInit() {
+        myTimer.setTimer(1.0);
+    }
+ 
+    @Override
+     public void stepExit() {
+
+    }
+
+    @Override
+    public Boolean stepIsComplete() {
+        return myTimer.isExpired();
+    }
+
+    @Override
+
+    public void stepPeriodic() {
+
+    }
+
 }
