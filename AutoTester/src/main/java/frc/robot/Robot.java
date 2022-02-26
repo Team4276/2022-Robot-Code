@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    myAutoRunner.StartTask(AutoRunner.TASK_ID.TEST_AUTO);
+    myAutoRunner.StartTask(AutoRunner.TASK_ID.SHOOT_ONE);
   }
 
   /** This function is called periodically during autonomous. */

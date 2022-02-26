@@ -8,13 +8,14 @@
 
 package frc.systems;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class TaskTestAuto extends AutoTask {
 
     private final TASK_STEP[] stepsForTestAutoTask = {
             TASK_STEP.SHOW_TEST_STARTED,
+            TASK_STEP.DELAY_1SEC,
+            TASK_STEP.DELAY_1SEC,
+            TASK_STEP.DELAY_1SEC,
+            TASK_STEP.DELAY_1SEC,
             TASK_STEP.DELAY_1SEC,
             TASK_STEP.SHOW_TEST_ENDED,
             TASK_STEP.END
@@ -22,15 +23,11 @@ public class TaskTestAuto extends AutoTask {
 
     public TaskTestAuto() {
         super();
-        myTaskID = AutoRunner.TASK_ID.TEST_AUTO;
-        mySteps = stepsForTestAutoTask;
+        Init(AutoRunner.TASK_ID.TEST_AUTO, stepsForTestAutoTask);
     }
-
-    private Timer myDelayTimer;
 
     @Override
     public void Init() {
-        myDelayTimer = new Timer();
     }
 
     @Override
@@ -39,21 +36,12 @@ public class TaskTestAuto extends AutoTask {
         switch (GetCurrentStep()) {
 
             case DELAY_1SEC:
-                myDelayTimer.reset();
-                break;
-
-            case SHOW_TEST_STARTED:
-                SmartDashboard.putString("TEST_AUTO:", "Test Started!");
-                break;
-
-            case SHOW_TEST_ENDED:
-                SmartDashboard.putString("TEST_AUTO:", "Test END");
+                myTimer.setTimer(1.0);
                 break;
 
             default:
                 break;
         }
-        SmartDashboard.putString("Current step", GetCurrentStep().toString());
     }
 
     @Override
@@ -64,7 +52,7 @@ public class TaskTestAuto extends AutoTask {
 
         switch (GetCurrentStep()) {
             case DELAY_1SEC:
-                return myDelayTimer.advanceIfElapsed(1.0);
+                return myTimer.isExpired();
 
             default:
                 return true;

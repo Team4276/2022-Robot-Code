@@ -12,15 +12,16 @@ public class TaskShootOne extends AutoTask {
 
     private final TASK_STEP[] stepsForShootOneTask = {
             TASK_STEP.SPIN_UP_SHOOTER,
+            TASK_STEP.DELAY_1SEC,
             TASK_STEP.SHOOT_ONE,
             TASK_STEP.STOP_SHOOTER,
             TASK_STEP.ADVANCE_INTAKE,
-            TASK_STEP.END };
+            TASK_STEP.END
+    };
 
     public TaskShootOne() {
         super();
-        myTaskID = AutoRunner.TASK_ID.SHOOT_ONE;
-        mySteps = stepsForShootOneTask;
+        Init(AutoRunner.TASK_ID.SHOOT_ONE, stepsForShootOneTask);
     }
 
     @Override
@@ -32,6 +33,9 @@ public class TaskShootOne extends AutoTask {
     public void InitStep(TASK_STEP step) {
 
         switch (GetCurrentStep()) {
+            case DELAY_1SEC:
+                myTimer.setTimer(1.0);
+                break;
 
             case STOP_SHOOTER:
                 // TODO: Command motor to stop
@@ -53,8 +57,10 @@ public class TaskShootOne extends AutoTask {
         if (GetCurrentStep() == TASK_STEP.END) {
             return true;
         }
-
         switch (GetCurrentStep()) {
+            case DELAY_1SEC:
+                return myTimer.isExpired();
+
             case SPIN_UP_SHOOTER:
                 // TODO: return false if not up to speed yet
                 break;
@@ -64,8 +70,8 @@ public class TaskShootOne extends AutoTask {
                 break;
 
             case STOP_SHOOTER:
-                return true;  // Command was sent in InitStep(), nothing else to do
- 
+                return true; // Command was sent in InitStep(), nothing else to do
+
             case ADVANCE_INTAKE:
                 // TODO return false if intake is still advancing
                 break;
@@ -92,7 +98,7 @@ public class TaskShootOne extends AutoTask {
                 // TODO return false if intake is still advancing
                 break;
 
-            case STOP_SHOOTER:  // Command sent in InitStep(), nothing else to do
+            case STOP_SHOOTER: // Command sent in InitStep(), nothing else to do
             default:
                 break;
         }

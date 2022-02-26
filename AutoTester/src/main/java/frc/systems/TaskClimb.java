@@ -10,12 +10,13 @@ package frc.systems;
 
 public class TaskClimb extends AutoTask {
 
-    private final TASK_STEP[] stepsForClimbTask = { TASK_STEP.FIND_LINE, TASK_STEP.END };
+    private final TASK_STEP[] stepsForClimbTask = {
+            TASK_STEP.FIND_LINE,
+            TASK_STEP.END };
 
     public TaskClimb() {
         super();
-        myTaskID = AutoRunner.TASK_ID.CLIMB;
-        mySteps = stepsForClimbTask;
+        Init(AutoRunner.TASK_ID.CLIMB, stepsForClimbTask);
     }
 
     @Override
@@ -27,6 +28,9 @@ public class TaskClimb extends AutoTask {
     public void InitStep(TASK_STEP step) {
 
         switch (GetCurrentStep()) {
+            case DELAY_1SEC:
+                myTimer.setTimer(1.0);
+                break;
 
             case FIND_LINE:
                 // TODO: Set delay for how long to search for line
@@ -46,6 +50,9 @@ public class TaskClimb extends AutoTask {
         // TODO: return true if soecific button is no longer held down
 
         switch (GetCurrentStep()) {
+            case DELAY_1SEC:
+                return myTimer.isExpired();
+
             case FIND_LINE:
                 // TODO: return true if both sensors have found the line
                 break;
