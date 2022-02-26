@@ -8,22 +8,17 @@ public class LimitSwitch extends DigitalInput {
 
     public enum BallState {
 
+        NONE,
         UPPER,
         LOWER,
-        BOTH,
-        NONE
-    };
+        BOTH
+     };
 
     public static BallState ballState;
-
 
     public LimitSwitch(int channel) {
         super(channel);
     }//end constructor
-
-    public boolean ballTouching() {
-        return get();//.get() Get the value from a digital input channel. 
-    }// end constructor
 
     //get data from limit switches
     public void determineCase(){
@@ -36,6 +31,11 @@ public class LimitSwitch extends DigitalInput {
         upperActive = false;
         else
         upperActive = true;
+
+        if (lowerActive == true)
+        lowerActive = false;
+        else 
+        lowerActive = true;
 
         //ocupied = true
         //open = false
@@ -65,6 +65,7 @@ public class LimitSwitch extends DigitalInput {
             //outputs limit switch values and ball state to the smart dashboard
             SmartDashboard.putBoolean("Upper Limit Switch:", upperActive);
             SmartDashboard.putBoolean("Lower Limit Switch:", lowerActive);
+            SmartDashboard.putNumber("Ball State:", ballState.ordinal());
     }//end determine case()
     
 }//end class

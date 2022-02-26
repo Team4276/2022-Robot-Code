@@ -16,69 +16,46 @@ public class AutoRunner {
         NONE,
         SHOOT_ONE,
         CLIMB,
-        NUMBER_OF_TASK_ID, TEST_AUTO
+        TEST_AUTO
     };
 
-    private TASK_ID currentTask = TASK_ID.NONE;
-    
-    private AutoTask taskAutoShoot;
-    private TaskClimb taskClimb;
-    private TaskTestAuto taskAuto;
+    private AutoTask currentTask;
 
     public AutoRunner() {
-        currentTask = TASK_ID.NONE;
-
-        taskAutoShoot = new TaskShootOne();
-        taskClimb = new TaskClimb();
-        taskAuto= new TaskTestAuto();
+        currentTask = new AutoTask();
+        ;
     }
 
     public void StartTask(TASK_ID id) {
-        currentTask = id;
-        switch (currentTask) {
+        switch (id) {
             case SHOOT_ONE:
-                taskAutoShoot.Init();
-                break;
-
-                case CLIMB:
-                taskClimb.Init();
-                break;
-
-                case TEST_AUTO:
-                taskAuto.Init();
-                break;
-
-            case NONE:
-            default:
-                currentTask = TASK_ID.NONE;
-                break;
-        }
-    }
-
-    public void DoCurrentTask() {
-        switch (currentTask) {
-            case SHOOT_ONE:
-                if (taskAutoShoot.IsCurrentStepComplete()) {
-                    taskAutoShoot.GotoNextStep();
-                } else {
-                    taskAutoShoot.DoCurrentStep();
-                }
+                currentTask = new TaskShootOne();
                 break;
 
             case CLIMB:
-                if (taskClimb.IsCurrentStepComplete()) {
-                    taskClimb.GotoNextStep();
-                } else {
-                    taskClimb.DoCurrentStep();
-                }
+                currentTask = new TaskClimb();
+                break;
+
+            case TEST_AUTO:
+                currentTask = new TaskTestAuto();
                 break;
 
             case NONE:
             default:
-                currentTask = TASK_ID.NONE;
+                currentTask = new AutoTask();
                 break;
         }
-        SmartDashboard.putNumber("Current Task: ", currentTask.ordinal());
-        SmartDashboard.putNumber("Current Step: ", currentTask.ordinal());
+        SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
+    }
+
+    public void DoCurrentTask() {
+        currentTask.stepPeriodic();
+        if (currentTask.stepIsComplete()) {
+            currentTask.gotoNextStep();
+        }
+        if (currentTask.taskIsDone()) {
+            currentTask = new AutoTask();
+            SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
+        }
     }
 }

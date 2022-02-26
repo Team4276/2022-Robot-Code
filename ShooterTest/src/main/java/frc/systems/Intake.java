@@ -3,23 +3,24 @@ package frc.systems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Robot;
 import frc.utilities.Xbox;
 
 public class Intake {
 
     private static VictorSPX intakeMotor;
-    private static VictorSPX raiseIntake;
-    private static Encoder raiseIntakeEncoder;
+
+    private static Solenoid intakeSolenoid;
+   
+    private static PneumaticsModuleType moduleType;
 
     private static double intakeMotorPower = 0.5;
-    private static double raiseInatakePower = 0.5;
 
-    public Intake(int intakeMotorInput, int raiseIntakeInput, int encoderIntakeA, int encoderIntakeB){
+    public Intake(int intakeMotorInput, int intakeSolenoidInput){
         intakeMotor = new VictorSPX(intakeMotorInput);
-        raiseIntake = new VictorSPX(raiseIntakeInput);
-        raiseIntakeEncoder = new Encoder(encoderIntakeA, encoderIntakeB);
+        intakeSolenoid = new Solenoid(moduleType.CTREPCM, intakeSolenoidInput);
 
     }//end constructor
 
@@ -34,17 +35,12 @@ public class Intake {
             intakeMotor.set(ControlMode.PercentOutput, -intakeMotorPower);
 
         //raise intake
-        if (Robot.xboxController.getRawAxis(Xbox.LAxisY)>0.1){
-            raiseIntake.set(ControlMode.PercentOutput, raiseInatakePower);
+        if (Robot.xboxController.getRawAxis(Xbox.LAxisY)>0.1)
+            intakeSolenoid.set(true);
 
-        }
-            
         //lower intake 
-        else if (Robot.xboxController.getRawAxis(Xbox.LAxisY)<-0.1){
-            raiseIntake.set(ControlMode.PercentOutput, -raiseInatakePower);
-            
-        }
-            
+        else if (Robot.xboxController.getRawAxis(Xbox.LAxisY)<-0.1)
+            intakeSolenoid.set(false);
         
     }//end runIntake()
 }//end class
