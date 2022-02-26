@@ -5,11 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.systems.Drivetrain;
+import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.ControlShooter;
 import frc.utilities.LimitSwitch;
@@ -24,6 +28,7 @@ public class Robot extends TimedRobot {
   public static Joystick xboxJoystick;
   public static Intake intake;
   public static ControlShooter shooterControler;
+  public static HoodActuator hActuator;
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -41,6 +46,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
  
+    //Creates objects for the controlers 
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxController = new XboxController(2);
@@ -51,8 +57,13 @@ public class Robot extends TimedRobot {
 
     //intake motor initalization
 
+    intake = new Intake(RoboRioPorts.CAN_INTAKE, RoboRioPorts.INTAKE_SOLENOID);
+
     //shooter motor initialization
     shooterControler = new ControlShooter(RoboRioPorts.CAN_SHOOT_UPPER, RoboRioPorts.CAN_SHOOT_LOWER, RoboRioPorts.CAN_SHOOTER);
+
+    //hood actuator initalization
+    hActuator = new HoodActuator(RoboRioPorts.HOOD_SOLENOID);
 
     //drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
@@ -76,10 +87,11 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
 
     //essential shooter function
-    shooterControler.loadShooter();
     shooterControler.runShooter();
     upperLimitSwitch.determineCase();
     lowerLimitSwitch.determineCase();
+    hActuator.toggleShooterHood();
+
     
   }
 

@@ -29,6 +29,10 @@ public class RoboRioPorts {
 	public static final int DRIVE_DOUBLE_SOLENOID_FWD = 4;
 	public static final int DRIVE_DOUBLE_SOLENOID_REV = 5;
 
+	public static final int HOOD_SOLENOID = 3;
+
+	public static final int INTAKE_SOLENOID = 2;
+
 	// *** DIO ***
 	public static final int DIO_DRIVE_LEFT_A = 0;
 	public static final int DIO_DRIVE_LEFT_B = 1;
