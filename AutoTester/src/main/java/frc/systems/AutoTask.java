@@ -10,47 +10,34 @@ package frc.systems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.AutoRunner.TASK_ID;
-import frc.utilities.SoftwareTimer;
+import frc.systems.AutoStep.STEP_ID;
 
 public class AutoTask {
 
-    public enum TASK_STEP {
-        END,
-        SPIN_UP_SHOOTER,
-        STOP_SHOOTER,
-        SHOOT_ONE,
-        SHOOT_ALL,
-        ADVANCE_INTAKE,
-        FIND_LINE,
-        FWD_500MS,
-        REV_500MS,
-        HOOK_UP_500MS,
-        HOOK_DOWN_500MS,
-        SHOW_TEST_STARTED,
-        DELAY_1SEC,
-        SHOW_TEST_ENDED
-    };
+    public static StepEnd stepEnd;
+    public static StepDelay_1sec stepDelay_1sec;
 
-    protected TASK_STEP[] mySteps;
+    protected AutoStep[] mySteps;
     protected AutoRunner.TASK_ID myTaskID;
-    protected SoftwareTimer myTimer;
 
     private int myCurrentStepIndex = 0;
 
     public AutoTask() {
-        mySteps = new TASK_STEP[] { TASK_STEP.END };
+        mySteps = new AutoStep[AutoStep.STEP_ID.NUMBER_OF_STEP_TYPES.ordinal()];
         myTaskID = TASK_ID.NONE;
         myCurrentStepIndex = 0;
+
+        stepEnd = new StepEnd();
+        stepDelay_1sec = new StepDelay_1sec();
     }
 
-    public void taskInit(AutoRunner.TASK_ID id, TASK_STEP[] steps) {
-        myTimer = new SoftwareTimer();
+    public void taskInit(AutoRunner.TASK_ID id, AutoStep[] steps) {
         mySteps = steps;
         myTaskID = id;
         myCurrentStepIndex = 0;
     }
 
-    public TASK_STEP getCurrentStep() {
+    public AutoStep getCurrentStep() {
         return mySteps[myCurrentStepIndex];
     }
 
@@ -59,39 +46,22 @@ public class AutoTask {
     }
 
     public void gotoNextStep() {
-        if (getCurrentStep() != TASK_STEP.END) {
-            stepExit(mySteps[myCurrentStepIndex]);
+        if (getCurrentStep().stepID != STEP_ID.END) {
+            getCurrentStep().stepExit();
             myCurrentStepIndex++;
-            stepInit(mySteps[myCurrentStepIndex]);
+            getCurrentStep().stepInit();
         }
         SmartDashboard.putNumber("step# ", getCurrentStepNumber());
         SmartDashboard.putString("Current step", getCurrentStep().toString());
     }
 
     public void taskStop() {
-        while (getCurrentStep() != TASK_STEP.END) {
+        while (getCurrentStep().stepID != STEP_ID.END) {
             myCurrentStepIndex++;
         }
     }
 
     public Boolean taskIsDone() {
-        return (getCurrentStep() == TASK_STEP.END);
+        return (getCurrentStep().stepID == STEP_ID.END);
     }
-
-    public void stepInit(TASK_STEP step) {
-
-    }
-
-    public void stepExit(TASK_STEP step) {
-
-    }
-
-    public Boolean stepIsComplete() {
-        return true;
-    }
-
-    public void stepPeriodic() {
-
-    }
-
 }

@@ -49,8 +49,8 @@ public class AutoRunner {
     }
 
     public void DoCurrentTask() {
-        currentTask.stepPeriodic();
-        if (currentTask.stepIsComplete()) {
+        currentTask.getCurrentStep().stepPeriodic();
+        if (currentTask.getCurrentStep().stepIsComplete()) {
             currentTask.gotoNextStep();
         }
         if (currentTask.taskIsDone()) {
