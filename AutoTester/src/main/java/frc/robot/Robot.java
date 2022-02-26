@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.Drivetrain;
 import frc.systems.AutoRunner;
 import frc.utilities.RoboRioPorts;
@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
 
   public static AutoRunner myAutoRunner;
 
+  public Autonomous myAutonomous;
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -49,6 +50,9 @@ public class Robot extends TimedRobot {
     driveRateGroup.startPeriodic(0.05);
 
     myAutoRunner = new AutoRunner();
+    myAutonomous = new Autonomous();
+
+    
   }
 
   /**
@@ -65,6 +69,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     myAutoRunner.DoCurrentTask();
+    myAutonomous.autoPeriodic();
   }
 
   @Override
@@ -75,6 +80,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    
   }
 
   /** This function is called once when teleop is enabled. */
