@@ -60,6 +60,7 @@ public class AutoTask {
 
     public void gotoNextStep() {
         if (getCurrentStep() != TASK_STEP.END) {
+            stepExit(mySteps[myCurrentStepIndex]);
             myCurrentStepIndex++;
             stepInit(mySteps[myCurrentStepIndex]);
         }
@@ -75,10 +76,6 @@ public class AutoTask {
 
     public Boolean taskIsDone() {
         return (getCurrentStep() == TASK_STEP.END);
-    }
-
-    public void Init() {
-
     }
 
     public void stepInit(TASK_STEP step) {
