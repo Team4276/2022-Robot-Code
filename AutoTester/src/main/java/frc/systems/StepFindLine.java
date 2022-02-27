@@ -8,17 +8,17 @@
 
 package frc.systems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Robot;
 import frc.utilities.RoboRioPorts;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StepFindLine extends AutoStep {
-   
+
     private DigitalInput lineSensor_L;
 
- 
     public StepFindLine() {
         stepID = AutoStep.STEP_ID.FIND_LINE;
+
         lineSensor_L = new DigitalInput(RoboRioPorts.DIO_AUTO_CLIMB);
     }
 
@@ -26,9 +26,9 @@ public class StepFindLine extends AutoStep {
     public void stepInit() {
         Robot.mDrivetrain.assignMotorPower(0.1, 0.1);
     }
- 
+
     @Override
-     public void stepExit() {
+    public void stepExit() {
         Robot.mDrivetrain.assignMotorPower(0.0, 0.0);
     }
 

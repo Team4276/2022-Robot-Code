@@ -17,7 +17,7 @@ public class Autonomous extends Thread implements Runnable {
     static final int CENTER = 1;
     static final int RIGHT = 2;
     static String[]     startPositionArray = new String[3];
-    private final int red = 0;
+    final int red = 0;
     private final int blue = 1;
     static String[] redStartPositionArray = new String[3];
     static String[] blueStartPositionArray= new String[3];
@@ -25,7 +25,7 @@ public class Autonomous extends Thread implements Runnable {
     // Starting positions
     
     public int startingPosition = 0;
-    private int team = 0;
+    public int team = 0;
     static int autoModeToExecute;
     public boolean breakLoop = false;
 public int selectionMode = COMMIT_MODE;
