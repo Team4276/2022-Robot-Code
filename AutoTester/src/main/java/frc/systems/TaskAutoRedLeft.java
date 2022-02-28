@@ -8,22 +8,16 @@
 
 package frc.systems;
 
-public class TaskTestAuto extends AutoTask {
+import frc.systems.AutoRunner.TASK_ID;
 
-    private final AutoStep[] stepsForTestAutoTask = {
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepDelay_1sec,
-        AutoTask.stepEnd
-    };
+public class TaskAutoRedLeft extends AutoTask {
+ 
+    private final AutoStep[] stepsForAutoTask = {
+              AutoTask.stepEnd };
 
-    public TaskTestAuto() {
+    public TaskAutoRedLeft() {
         super();
-        taskInit(AutoRunner.TASK_ID.TEST_AUTO, stepsForTestAutoTask);
+
+        taskInit(TASK_ID.AUTO_RED_LEFT, stepsForAutoTask);
     }
 }

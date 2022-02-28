@@ -1,6 +1,6 @@
 package frc.utilities;
 
-public final class RoboRioPorts {
+public class RoboRioPorts {
 
 	// *** PWM ***
 	// Example:
@@ -30,6 +30,4 @@ public final class RoboRioPorts {
 
 	public static final int DIO_UPPER = 4;
 	public static final int DIO_LOWER = 5;
-
-	public static final int DIO_AUTO_CLIMB = 6;
 }

@@ -1,4 +1,3 @@
-
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -6,17 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.systems;
+package frc.utilities;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class TaskShootOne extends AutoTask {
-
-    private final AutoStep[] stepsForShootOneTask = {
-            AutoTask.stepEnd
-    };
-
-    public TaskShootOne() {
-        super();
-        taskInit(AutoRunner.TASK_ID.SHOOT_ONE, stepsForShootOneTask);
-    }
+/**
+ * Add your docs here.
+ */
+public class Constants {
+    public final static double SHIFT_TIME = 0.05; // sec
+    public final static Value HI_GEAR_VALUE = DoubleSolenoid.Value.kForward;
+    public final static Value LO_GEAR_VALUE = DoubleSolenoid.Value.kReverse;
 }
