@@ -73,8 +73,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    myAutoRunner.DoCurrentTask();
-    myAutonomous.autoPeriodic();
+    //myAutoRunner.DoCurrentTask();
+    
   }
 
   @Override
@@ -101,11 +101,13 @@ public class Robot extends TimedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
+
   }
 
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
+    myAutonomous.periodic();
   }
 
   /** This function is called once when test mode is enabled. */

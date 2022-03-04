@@ -43,7 +43,7 @@ public int selectionMode = COMMIT_MODE;
         // experimental
         
     }
-    public void autoPeriodic() {
+    public void periodic() {
            
                 /*if 
                  * if (selectionMode == COMMIT_MODE) { selectionMode = (int)
@@ -60,10 +60,12 @@ public int selectionMode = COMMIT_MODE;
                    selectionMode = EDIT_MODE;
                     SmartDashboard.putBoolean("Edit Mode?", true);
                     SmartDashboard.putString("Selection mode", selectionModeArray[selectionMode]);
+                    Timer.delay(.5);
                 } else if ((Robot.leftJoystick.getRawButton(7)) && (selectionMode == EDIT_MODE)) {
                     selectionMode = COMMIT_MODE;
                      SmartDashboard.putBoolean("Edit Mode?", false);
                      SmartDashboard.putString("Selection mode", selectionModeArray[selectionMode]);
+                     Timer.delay(.5);
                     
                 }
                 if ((Robot.leftJoystick.getRawButton(8)) && (selectionMode == EDIT_MODE)) {
@@ -117,5 +119,18 @@ public int selectionMode = COMMIT_MODE;
         //  SmartDashboard.putString("Auto ERROR", autoSelectorError.getMessage());
         //}
     //}
-}
+
+    
+    }
+
+    public int getSelectionMode(){
+        return selectionMode;
+    }
+
+    public int getTeamColor(){
+        return team;
+    }
+
+    public int getPosition(){
+        return startingPosition;}
 }
