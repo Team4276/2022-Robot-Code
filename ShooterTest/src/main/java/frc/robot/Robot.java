@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
     // Drive train motor control is done on its own timer driven thread regardless of disabled/teleop/auto mode selection
     driveRateGroup = new Notifier(mDrivetrain::operatorDrive);
     driveRateGroup.startPeriodic(0.05);  
+    //shooterControler.shooterInit();
   }
 
   /**

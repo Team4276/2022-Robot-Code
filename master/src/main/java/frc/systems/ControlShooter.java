@@ -1,9 +1,12 @@
 package frc.systems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -17,10 +20,14 @@ public class ControlShooter {
     public static VictorSPX upperMotor;
     public static VictorSPX lowerMotor;
     public static TalonSRX shooterMotor;
+
+    public static TalonSRX srxControlMode;
+
+    public static PIDController pidController;
     
-    private double highShooterPower = -0.65;
+    private double highShooterPower = 1;//high power can range from 0.9 to 1.0 at a full battery
     private double feederPower = 0.9;
-    private double lowShooterPower = 0.3;
+    private double lowShooterPower = 0.65;//power for low goal 
 
     private Timer timer;
     
@@ -30,6 +37,12 @@ public class ControlShooter {
         lowerMotor = new VictorSPX(lowerMotorCANPort);
         shooterMotor = new TalonSRX(shooterCANPort);
     }//end constructor
+
+    public void shooterInit(){
+        shooterMotor.configFactoryDefault(100);
+        shooterMotor.setNeutralMode(NeutralMode.Brake);
+        shooterMotor.setSelectedSensorPosition(0.0);
+    }//end shooterInit()
 
     public void runShooter(){
             
@@ -53,8 +66,7 @@ public class ControlShooter {
                     upperMotor.set(ControlMode.PercentOutput, 0);
                     lowerMotor.set(ControlMode.PercentOutput, feederPower);  
                 }//sets power to upper Limit Switch values if RT is not pressesd
-                
-            }//end if
+            }//end else if
 
             else if (LimitSwitch.ballState == BallState.BOTH){
                 if(Robot.xboxController.getRawAxis(Xbox.RT)==0){
@@ -62,7 +74,7 @@ public class ControlShooter {
                     upperMotor.set(ControlMode.PercentOutput, 0);
                     lowerMotor.set(ControlMode.PercentOutput, 0);
                 }//sets power to 0 if RT is not pressesd
-            }//end if
+            }//end ifCcs
         }//end load shooter action
 
         //high shooter action
@@ -79,6 +91,7 @@ public class ControlShooter {
             upperMotor.set(ControlMode.PercentOutput, 0);
             lowerMotor.set(ControlMode.PercentOutput, 0);
             shooterMotor.set(ControlMode.PercentOutput, 0);
+            
         }//end reset motor power action
 
         //Smart Dashboard outputs 

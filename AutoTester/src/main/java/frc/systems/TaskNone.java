@@ -10,26 +10,14 @@ package frc.systems;
 
 import frc.systems.AutoRunner.TASK_ID;
 
-public class TaskClimb extends AutoTask {
+public class TaskNone extends AutoTask {
+ 
+    private final AutoStep[] stepsForNoneTask = {
+              AutoTask.stepEnd };
 
-    public StepFindLine stepFindLine;
-
-    private AutoStep[] stepsForClimbTask;
-    
-    public TaskClimb() {
+    public TaskNone() {
         super();
 
-        stepFindLine = new StepFindLine();
-
-        stepsForClimbTask = new AutoStep[] {
-                stepFindLine,
-                AutoTask.stepDelay_1sec,
-                AutoTask.stepDelay_1sec,
-                AutoTask.stepDelay_1sec,
-                AutoTask.stepDelay_1sec,
-                AutoTask.stepDelay_1sec,
-                AutoTask.stepEnd
-        };
-        taskInit(TASK_ID.CLIMB, stepsForClimbTask);
+        taskInit(TASK_ID.NONE, stepsForNoneTask);
     }
 }

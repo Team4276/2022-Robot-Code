@@ -22,13 +22,16 @@ public class AutoTask {
 
     private int myCurrentStepIndex = 0;
 
-    public AutoTask() {
-        mySteps = new AutoStep[AutoStep.STEP_ID.NUMBER_OF_STEP_TYPES.ordinal()];
-        myTaskID = TASK_ID.NONE;
-        myCurrentStepIndex = 0;
+    private AutoStep[] stepsForNoneTask;
 
+    public AutoTask() {
         stepEnd = new StepEnd();
         stepDelay_1sec = new StepDelay_1sec();
+
+        stepsForNoneTask = new AutoStep[] {
+                stepEnd
+        };
+        taskInit(AutoRunner.TASK_ID.NONE, stepsForNoneTask);
     }
 
     public void taskInit(AutoRunner.TASK_ID id, AutoStep[] steps) {
@@ -52,7 +55,7 @@ public class AutoTask {
             getCurrentStep().stepInit();
         }
         SmartDashboard.putNumber("step# ", getCurrentStepNumber());
-        SmartDashboard.putString("Current step", getCurrentStep().toString());
+        SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
     }
 
     public void taskStop() {

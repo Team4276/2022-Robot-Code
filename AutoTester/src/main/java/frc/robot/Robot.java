@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.Drivetrain;
 import frc.systems.AutoRunner;
 import frc.utilities.LogJoystick;
@@ -23,11 +22,10 @@ public class Robot extends TimedRobot {
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
 
-  public static Timer systemTimer;
-
   public static AutoRunner myAutoRunner;
 
   public Autonomous myAutonomous;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -53,7 +51,6 @@ public class Robot extends TimedRobot {
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
 
-    
   }
 
   public static Boolean IsAutoClimbButtonPushed() {
@@ -79,13 +76,44 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    myAutoRunner.StartTask(AutoRunner.TASK_ID.CLIMB);
+    if (myAutonomous.team == myAutonomous.red) {
+      switch (myAutonomous.startingPosition) {
+        case Autonomous.LEFT:
+          // myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_LEFT);
+          myAutoRunner.StartTask(AutoRunner.TASK_ID.CLIMB);
+          break;
+
+        case Autonomous.CENTER:
+          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_CENTER);
+          break;
+
+        case Autonomous.RIGHT:
+          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_RIGHT);
+          break;
+      }
+    } else { // blue
+      switch (myAutonomous.startingPosition) {
+        case Autonomous.LEFT:
+          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_BLUE_LEFT);
+          break;
+
+        case Autonomous.CENTER:
+          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_BLUE_CENTER);
+          break;
+
+        case Autonomous.RIGHT:
+          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_BLUE_RIGHT);
+          break;
+      }
+
+    }
+
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    
+
   }
 
   /** This function is called once when teleop is enabled. */

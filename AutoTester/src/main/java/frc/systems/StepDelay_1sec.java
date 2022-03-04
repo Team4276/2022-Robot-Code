@@ -16,6 +16,7 @@ public class StepDelay_1sec extends AutoStep {
 
     public StepDelay_1sec() {
         stepID = AutoStep.STEP_ID.DELAY_1SEC;
+        myTimer = new SoftwareTimer();
     }
 
     @Override
