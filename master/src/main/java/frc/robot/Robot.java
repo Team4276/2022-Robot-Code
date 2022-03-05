@@ -14,6 +14,7 @@ import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
+import frc.systems.RgbSensorRunnable;
 import frc.utilities.LimitSwitch;
 import frc.utilities.RoboRioPorts;
 
@@ -28,6 +29,8 @@ public class Robot extends TimedRobot {
   public static ControlShooter shooterControler;
   public static HoodActuator hActuator;
 
+  private static Thread myRgbSensorThread;
+  
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
 
@@ -62,7 +65,10 @@ public class Robot extends TimedRobot {
 
     //shooter motor initialization
     shooterControler = new ControlShooter(RoboRioPorts.CAN_SHOOT_UPPER, RoboRioPorts.CAN_SHOOT_LOWER, RoboRioPorts.CAN_SHOOTER);
-
+    RgbSensorRunnable rbgSensorRunnable = new RgbSensorRunnable();
+    myRgbSensorThread = new Thread(rbgSensorRunnable);
+    myRgbSensorThread.start();
+    
     //hood actuator initalization
     hActuator = new HoodActuator(RoboRioPorts.HOOD_SOLENOID);
 
