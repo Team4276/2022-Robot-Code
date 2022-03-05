@@ -17,6 +17,7 @@ import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.StepFindLine;
+import frc.systems.TaskClimb;
 import frc.systems.AutoRunner;
 import frc.systems.ControlShooter;
 import frc.utilities.LimitSwitch;
@@ -84,6 +85,8 @@ public class Robot extends TimedRobot {
     driveRateGroup = new Notifier(mDrivetrain::operatorDrive);
     driveRateGroup.startPeriodic(0.05);  
     //shooterControler.shooterInit();
+
+    myAutoRunner = new AutoRunner();
   }
 
   /**
@@ -104,9 +107,6 @@ public class Robot extends TimedRobot {
     //lineSensor.getSensorData();
     
     myAutoRunner.DoCurrentTask();
-
-    SmartDashboard.putBoolean("Line Sensor R:", StepFindLine.lineSensor_R.get());
-    SmartDashboard.putBoolean("Line Sensor L:", StepFindLine.lineSensor_L.get());
   }
 
   @Override

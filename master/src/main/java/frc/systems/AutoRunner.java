@@ -104,9 +104,12 @@ public class AutoRunner {
         }
         if (currentTask.taskIsDone()) {
             currentTask = new AutoTask();
-            SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
+            //SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
         }
 
+        SmartDashboard.putBoolean("Line Sensor R:", taskClimb.stepFindLine.lineSensor_R.get());
+        SmartDashboard.putBoolean("Line Sensor L:", taskClimb.stepFindLine.lineSensor_L.get());
+     
     }
 
 }
