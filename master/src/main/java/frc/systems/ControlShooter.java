@@ -2,7 +2,6 @@ package frc.systems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -10,11 +9,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.systems.HoodActuator.HoodState;
 import frc.utilities.LimitSwitch;
+import frc.utilities.LimitSwitch.BallState;
 import frc.utilities.SoftwareTimer;
 import frc.utilities.Xbox;
-import frc.utilities.LimitSwitch.BallState;
 
 public class ControlShooter {
 

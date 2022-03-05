@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
+import frc.systems.StepFindLine;
+import frc.systems.AutoRunner;
 import frc.systems.ControlShooter;
 import frc.utilities.LimitSwitch;
 import frc.utilities.RoboRioPorts;
@@ -34,6 +37,8 @@ public class Robot extends TimedRobot {
   public static Drivetrain mDrivetrain;
 
   public static Timer systemTimer;
+  
+  public static AutoRunner myAutoRunner;
 
   public static LimitSwitch lowerLimitSwitch;
   public static LimitSwitch upperLimitSwitch;
@@ -97,8 +102,11 @@ public class Robot extends TimedRobot {
     lowerLimitSwitch.determineCase();
     hActuator.toggleShooterHood();
     //lineSensor.getSensorData();
-
     
+    myAutoRunner.DoCurrentTask();
+
+    SmartDashboard.putBoolean("Line Sensor R:", StepFindLine.lineSensor_R.get());
+    SmartDashboard.putBoolean("Line Sensor L:", StepFindLine.lineSensor_L.get());
   }
 
   @Override
