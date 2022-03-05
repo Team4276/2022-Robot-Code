@@ -17,7 +17,6 @@ import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.ControlShooter;
 import frc.utilities.LimitSwitch;
-import frc.utilities.LineSensor;
 import frc.utilities.RoboRioPorts;
 
 public class Robot extends TimedRobot {
@@ -40,8 +39,7 @@ public class Robot extends TimedRobot {
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
 
-  public static LineSensor lineSensor;
- 
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
