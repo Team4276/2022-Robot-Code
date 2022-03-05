@@ -4,22 +4,16 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.systems.AutoRunner;
+import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
-import frc.systems.StepFindLine;
-import frc.systems.TaskClimb;
-import frc.systems.AutoRunner;
-import frc.systems.ControlShooter;
 import frc.utilities.LimitSwitch;
 import frc.utilities.RoboRioPorts;
 

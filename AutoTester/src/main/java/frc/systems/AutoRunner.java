@@ -97,9 +97,8 @@ public class AutoRunner {
         SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
     }
 
-    /**
-     *  public void DoCurrentTask() {
-        //currentTask.getCurrentStep().stepPeriodic();
+    public void DoCurrentTask() {
+        // currentTask.getCurrentStep().stepPeriodic();
         if (currentTask.getCurrentStep().stepIsComplete()) {
             currentTask.gotoNextStep();
         }
@@ -108,7 +107,4 @@ public class AutoRunner {
             SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
         }
     }
-     */
-
-   
 }

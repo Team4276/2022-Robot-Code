@@ -9,7 +9,6 @@
 package frc.systems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.systems.AutoRunner.TASK_ID;
 import frc.systems.AutoStep.STEP_ID;
 
 public class AutoTask {

@@ -4,12 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.Timer;
-import frc.systems.Drivetrain;
+import edu.wpi.first.wpilibj.TimedRobot;
 import frc.systems.AutoRunner;
+import frc.systems.Drivetrain;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
 
@@ -50,6 +49,7 @@ public class Robot extends TimedRobot {
 
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
+    myAutonomous.start();
 
   }
 
@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    //myAutoRunner.DoCurrentTask();
+    myAutoRunner.DoCurrentTask();
     
   }
 
@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
-    myAutonomous.periodic();
+  
   }
 
   /** This function is called once when test mode is enabled. */
