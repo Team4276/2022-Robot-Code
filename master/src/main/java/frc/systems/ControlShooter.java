@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.systems.HoodActuator.HoodState;
 import frc.utilities.LimitSwitch;
+import frc.utilities.SoftwareTimer;
 import frc.utilities.Xbox;
 import frc.utilities.LimitSwitch.BallState;
 
@@ -24,14 +25,13 @@ public class ControlShooter {
     public static TalonSRX srxControlMode;
 
     public static PIDController pidController;
+
+    public static SoftwareTimer shootTimer;
     
     private double highShooterPower = 1;//high power can range from 0.9 to 1.0 at a full battery
     private double feederPower = 0.9;
     private double lowShooterPower = 0.65;//power for low goal 
-
-    private Timer timer;
     
-
     public ControlShooter(int upperMotorCANPort, int lowerMotorCANPort, int shooterCANPort ) {
         upperMotor = new VictorSPX(upperMotorCANPort);
         lowerMotor = new VictorSPX(lowerMotorCANPort);
@@ -47,6 +47,7 @@ public class ControlShooter {
     public void runShooter(){
             
         //load shooter action
+        //LT ACTION
         if(Robot.xboxController.getRawAxis(Xbox.LT)>0.1){ 
             if (LimitSwitch.ballState == BallState.NONE){
                 //upper open; lower open
@@ -69,6 +70,7 @@ public class ControlShooter {
             }//end else if
 
             else if (LimitSwitch.ballState == BallState.BOTH){
+                //RT ACTION
                 if(Robot.xboxController.getRawAxis(Xbox.RT)==0){
                     //upper occupied; lower occupied
                     upperMotor.set(ControlMode.PercentOutput, 0);
@@ -85,14 +87,25 @@ public class ControlShooter {
             upperMotor.set(ControlMode.PercentOutput, feederPower);
             lowerMotor.set(ControlMode.PercentOutput, feederPower);
             
-        }//end HIGH shoot action
+        }//end high shooter action
 
         if(Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
             upperMotor.set(ControlMode.PercentOutput, 0);
             lowerMotor.set(ControlMode.PercentOutput, 0);
             shooterMotor.set(ControlMode.PercentOutput, 0);
-            
+
         }//end reset motor power action
+
+        //single action shooter
+        if (Robot.xboxController.getRawButton(Xbox.Start)){
+            shootTimer.setTimer(2000);
+            if (!shootTimer.isExpired()){
+                shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
+                Timer.delay(.75);
+                upperMotor.set(ControlMode.PercentOutput, feederPower);
+                lowerMotor.set(ControlMode.PercentOutput, feederPower);
+            }
+        }
 
         //Smart Dashboard outputs 
 
@@ -108,5 +121,5 @@ public class ControlShooter {
         else if(LimitSwitch.ballState == BallState.BOTH)
         SmartDashboard.putString("INDEX STATUS:", "INDEXER FULL. BOMBS AWAY!!");
 
-    }//end loadShooter()
+    }//end runShooter()
 }//end class

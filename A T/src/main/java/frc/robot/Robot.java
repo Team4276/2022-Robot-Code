@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.Drivetrain;
 import frc.systems.ShooterControl;
@@ -19,7 +20,7 @@ public class Robot extends TimedRobot {
 
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
-  public static Joystick xboxJoystick;
+  public static XboxController xboxController;
   public static I2C myRGB;
 
   Notifier driveRateGroup;
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
  
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
-    xboxJoystick = new Joystick(2);
+    xboxController = new XboxController(2);
     myRGB = new I2C(I2C.Port.kOnboard, 0);
     myRGB.write(0,0);
     myRGB.write(1,1);

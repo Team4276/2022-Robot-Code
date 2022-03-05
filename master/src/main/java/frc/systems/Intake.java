@@ -13,14 +13,12 @@ public class Intake {
     private static VictorSPX intakeMotor;
 
     private static Solenoid intakeSolenoid;
-   
-    private static PneumaticsModuleType moduleType;
 
     private static double intakeMotorPower = 0.5;
 
     public Intake(int intakeMotorInput, int intakeSolenoidInput){
         intakeMotor = new VictorSPX(intakeMotorInput);
-        intakeSolenoid = new Solenoid(moduleType.CTREPCM, intakeSolenoidInput);
+        intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, intakeSolenoidInput);
 
     }//end constructor
 
