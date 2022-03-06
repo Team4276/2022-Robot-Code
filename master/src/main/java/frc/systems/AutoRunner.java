@@ -107,8 +107,8 @@ public class AutoRunner {
             //SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
         }
 
-        SmartDashboard.putBoolean("Line Sensor R:", taskClimb.stepFindLine.lineSensor_R.get());
-        SmartDashboard.putBoolean("Line Sensor L:", taskClimb.stepFindLine.lineSensor_L.get());
+        SmartDashboard.putBoolean("Line Sensor R:", taskClimb.stepFindLine.onTheLine_R());
+        SmartDashboard.putBoolean("Line Sensor L:", taskClimb.stepFindLine.onTheLine_L());
      
     }
 

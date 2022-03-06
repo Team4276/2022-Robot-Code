@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StepFindLine extends AutoStep {
 
-    public DigitalInput lineSensor_R;
-    public DigitalInput lineSensor_L;
+    private DigitalInput lineSensor_R;
+    private DigitalInput lineSensor_L;
+
 
     public StepFindLine() {
         stepID = AutoStep.STEP_ID.FIND_LINE;
@@ -42,6 +43,14 @@ public class StepFindLine extends AutoStep {
     @Override
     public void stepPeriodic() {
 
+    }
+
+    public Boolean onTheLine_R() {
+        return lineSensor_R.get();
+    }
+
+    public Boolean onTheLine_L() {
+        return lineSensor_L.get();
     }
 
 }

@@ -26,7 +26,7 @@ public class ControlShooter {
 
     public static SoftwareTimer shootTimer;
     
-    private double highShooterPower = 1;//high power can range from 0.9 to 1.0 at a full battery
+    private double highShooterPower = 0.5;//high power can range from 0.9 to 1.0 at a full battery
     private double feederPower = 0.9;
     private double lowShooterPower = 0.65;//power for low goal 
     
