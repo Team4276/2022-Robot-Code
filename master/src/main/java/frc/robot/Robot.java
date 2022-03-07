@@ -17,6 +17,7 @@ import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.RgbSensorRunnable;
+import frc.systems.AutoRunner.DRIVETRAIN_CONTROL_TYPE;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
@@ -100,7 +101,8 @@ public class Robot extends TimedRobot {
   }
 
   public Boolean IsAutoClimbButtonPushed() {
-    return myDebouncer.calculate(leftJoystick.getRawButton(LogJoystick.B12));
+    //return myDebouncer.calculate(leftJoystick.getRawButton(LogJoystick.B12));
+    return leftJoystick.getRawButton(LogJoystick.B12);
   }
 
   /**

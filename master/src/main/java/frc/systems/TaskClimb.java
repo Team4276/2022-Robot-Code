@@ -19,6 +19,8 @@ public class TaskClimb extends AutoTask {
     public TaskClimb() {
         super();
 
+        taskDrivetrainRequired = AutoRunner.DRIVETRAIN_CONTROL_TYPE.AUTO;
+
         stepFindLine = new StepFindLine();
 
         stepsForClimbTask = new AutoStep[] {

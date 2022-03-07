@@ -116,58 +116,60 @@ public class Drivetrain {
 
     public void operatorDrive() {
 
-        changeMode();
-        checkForGearShift();
-        if (currentMode == DriveMode.ARCADE) {
-            currentMode_s = "Arcade";
-        } else {
-            currentMode_s = "Tank";
-        }
+        if (AutoRunner.myDrivetrainControl != AutoRunner.DRIVETRAIN_CONTROL_TYPE.AUTO) {
+            changeMode();
+            checkForGearShift();
+            if (currentMode == DriveMode.ARCADE) {
+                currentMode_s = "Arcade";
+            } else {
+                currentMode_s = "Tank";
+            }
 
-        double leftY = 0;
-        double rightY = 0;
+            double leftY = 0;
+            double rightY = 0;
 
-        switch (currentMode) {
+            switch (currentMode) {
 
-            case ARCADE:
-                double linear = 0;
-                double turn = 0;
+                case ARCADE:
+                    double linear = 0;
+                    double turn = 0;
 
-                if (Math.abs(Robot.rightJoystick.getY()) > deadband) {
-                    linear = -Robot.rightJoystick.getY();
-                }
-                if (Math.abs(Robot.leftJoystick.getX()) > deadband) {
-                    turn = Math.pow(Robot.leftJoystick.getX(), 3);
-                }
+                    if (Math.abs(Robot.rightJoystick.getY()) > deadband) {
+                        linear = -Robot.rightJoystick.getY();
+                    }
+                    if (Math.abs(Robot.leftJoystick.getX()) > deadband) {
+                        turn = Math.pow(Robot.leftJoystick.getX(), 3);
+                    }
 
-                leftY = -linear - turn;
-                rightY = linear - turn;
-                if (!isShifting) {
-                    assignMotorPower(rightY, leftY);
-                } else {
+                    leftY = -linear - turn;
+                    rightY = linear - turn;
+                    if (!isShifting) {
+                        assignMotorPower(rightY, leftY);
+                    } else {
 
-                    assignMotorPower(0, 0);
-                }
+                        assignMotorPower(0, 0);
+                    }
 
-                break;
+                    break;
 
-            case TANK:
-                if (Math.abs(Robot.rightJoystick.getY()) > deadband) {
-                    rightY = -Math.pow(Robot.rightJoystick.getY(), 3 / 2);
-                }
-                if (Math.abs(Robot.leftJoystick.getY()) > deadband) {
-                    leftY = Math.pow(Robot.leftJoystick.getY(), 3 / 2);
-                }
-                if (!isShifting) {
-                    assignMotorPower(rightY, leftY);
-                } else {
+                case TANK:
+                    if (Math.abs(Robot.rightJoystick.getY()) > deadband) {
+                        rightY = -Math.pow(Robot.rightJoystick.getY(), 3 / 2);
+                    }
+                    if (Math.abs(Robot.leftJoystick.getY()) > deadband) {
+                        leftY = Math.pow(Robot.leftJoystick.getY(), 3 / 2);
+                    }
+                    if (!isShifting) {
+                        assignMotorPower(rightY, leftY);
+                    } else {
 
-                    assignMotorPower(0, 0);
-                }
-                break;
+                        assignMotorPower(0, 0);
+                    }
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
 
         updateTelemetry();
@@ -222,7 +224,8 @@ public class Drivetrain {
     }
 
     public enum DriveMode {
-        TANK, ARCADE, AUTO_CONTROL_DRIVE, S
+        TANK,
+        ARCADE
     }
 
     /**

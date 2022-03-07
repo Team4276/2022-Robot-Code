@@ -11,7 +11,6 @@ package frc.systems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoRunner {
-
     public enum TASK_ID {
         NONE,
         AUTO_RED_LEFT,
@@ -24,6 +23,15 @@ public class AutoRunner {
         CLIMB,
         TEST_AUTO
     };
+
+    public enum DRIVETRAIN_CONTROL_TYPE {
+        NONE,        // Robot not enabled, or driver control using joysticks etc.
+        AUTO         // Full autonomous uses motors / joysticks and any other controls for motors are all disabled
+        // SEMI-AUTO modes are possible, where only specific controls for motors needed for a task are disabled
+    }
+
+    public static DRIVETRAIN_CONTROL_TYPE myDrivetrainControl = DRIVETRAIN_CONTROL_TYPE.NONE;
+
 
     private TaskNone taskNone;
     private TaskAutoRedLeft taskAutoRedLeft;
@@ -94,6 +102,8 @@ public class AutoRunner {
                 currentTask = taskNone;
                 break;
         }
+        myDrivetrainControl = currentTask.taskDrivetrainRequired;
+        SmartDashboard.putString("Drivetrain control: ", myDrivetrainControl.toString());
         currentTask.taskStart();
         SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
     }
@@ -104,8 +114,10 @@ public class AutoRunner {
             currentTask.gotoNextStep();
         }
         if (currentTask.taskIsDone()) {
-            currentTask = new AutoTask();
-            //SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
+            myDrivetrainControl = AutoRunner.DRIVETRAIN_CONTROL_TYPE.NONE;
+            currentTask = taskNone;
+            SmartDashboard.putString("Drivetrain control: ", myDrivetrainControl.toString());
+            SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
         }
 
         SmartDashboard.putBoolean("Line Sensor R:", taskClimb.stepFindLine.onTheLine_R());
@@ -114,7 +126,9 @@ public class AutoRunner {
     }
 
     public void StopCurrentTask() {
+        myDrivetrainControl = AutoRunner.DRIVETRAIN_CONTROL_TYPE.NONE;
         currentTask.taskStop();
+        SmartDashboard.putString("Drivetrain control: ", myDrivetrainControl.toString());
     }
 
 }

@@ -9,9 +9,12 @@
 package frc.systems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.systems.AutoRunner.DRIVETRAIN_CONTROL_TYPE;
 import frc.systems.AutoStep.STEP_ID;
 
 public class AutoTask {
+
+    public DRIVETRAIN_CONTROL_TYPE taskDrivetrainRequired = DRIVETRAIN_CONTROL_TYPE.AUTO;
 
     public static StepEnd stepEnd;
     public static StepDelay_1sec stepDelay_1sec;
