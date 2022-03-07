@@ -222,7 +222,7 @@ public class Drivetrain {
     }
 
     public enum DriveMode {
-        TANK, ARCADE
+        TANK, ARCADE, AUTO_CONTROL_DRIVE, S
     }
 
     /**

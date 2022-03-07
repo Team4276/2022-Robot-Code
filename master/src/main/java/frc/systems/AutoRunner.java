@@ -94,6 +94,7 @@ public class AutoRunner {
                 currentTask = taskNone;
                 break;
         }
+        currentTask.taskStart();
         SmartDashboard.putString("Current Task: ", currentTask.myTaskID.toString());
     }
 
@@ -110,6 +111,10 @@ public class AutoRunner {
         SmartDashboard.putBoolean("Line Sensor R:", taskClimb.stepFindLine.onTheLine_R());
         SmartDashboard.putBoolean("Line Sensor L:", taskClimb.stepFindLine.onTheLine_L());
      
+    }
+
+    public void StopCurrentTask() {
+        currentTask.taskStop();
     }
 
 }

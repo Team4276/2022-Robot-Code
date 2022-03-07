@@ -37,20 +37,37 @@ public class StepFindLine extends AutoStep {
 
     @Override
     public Boolean stepIsComplete() {
-        return ( lineSensor_R.get() && lineSensor_L.get() );
+        if(!Robot.IsAutoClimbButtonPushed()) {
+            return true;
+        }
+        return ( onTheLine_R() && onTheLine_L() );
     }
 
     @Override
     public void stepPeriodic() {
-
+        double Rpower = 0.1;
+        double Lpower = 0.1;
+        if(onTheLine_R()) {
+            Rpower = 0.0;
+        }
+        if(onTheLine_L()) {
+            Lpower = 0.0;
+        }
+        Robot.mDrivetrain.assignMotorPower(Rpower, Lpower);
     }
 
     public Boolean onTheLine_R() {
-        return lineSensor_R.get();
+        if (lineSensor_R.get())
+        return false;
+        else
+        return true;
     }
 
     public Boolean onTheLine_L() {
-        return lineSensor_L.get();
+        if (lineSensor_L.get())
+        return false;
+        else
+        return true;
     }
 
 }
