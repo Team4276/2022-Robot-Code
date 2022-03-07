@@ -37,9 +37,6 @@ public class StepFindLine extends AutoStep {
 
     @Override
     public Boolean stepIsComplete() {
-        if(!Robot.IsAutoClimbButtonPushed()) {
-            return true;
-        }
         return ( onTheLine_R() && onTheLine_L() );
     }
 

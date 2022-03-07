@@ -59,12 +59,16 @@ public class AutoTask {
 
     public void taskStart() {
         myCurrentStepIndex = 0;
+        SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+        SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
         getCurrentStep().stepInit();
     }
 
     public void taskStop() {
         while (getCurrentStep().stepID != STEP_ID.END) {
             myCurrentStepIndex++;
+            SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+            SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
         }
     }
 

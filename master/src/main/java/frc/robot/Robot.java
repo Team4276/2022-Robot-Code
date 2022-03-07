@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -45,7 +46,8 @@ public class Robot extends TimedRobot {
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
 
-  private static Boolean prevAutoClimbButtonState = false;
+  private Debouncer myDebouncer;
+  private Boolean prevAutoClimbButtonState = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -90,13 +92,15 @@ public class Robot extends TimedRobot {
     driveRateGroup.startPeriodic(0.05);
     // shooterControler.shooterInit();
 
+    myDebouncer = new Debouncer(0.1, Debouncer.DebounceType.kBoth);
+
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
     myAutonomous.start();
   }
 
-  public static Boolean IsAutoClimbButtonPushed() {
-    return rightJoystick.getRawButton(LogJoystick.B11);
+  public Boolean IsAutoClimbButtonPushed() {
+    return myDebouncer.calculate(leftJoystick.getRawButton(LogJoystick.B12));
   }
 
   /**
@@ -121,7 +125,7 @@ public class Robot extends TimedRobot {
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
- 
+
     myAutoRunner.DoCurrentTask();
   }
 
@@ -171,19 +175,19 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-  
+
     if (IsAutoClimbButtonPushed()) {
       if (!prevAutoClimbButtonState) {
         prevAutoClimbButtonState = true;
         myAutoRunner.StartTask(AutoRunner.TASK_ID.CLIMB);
       }
     } else { // button NOT pressed
-      if (!prevAutoClimbButtonState) {
+      if (prevAutoClimbButtonState) {
         prevAutoClimbButtonState = false;
         myAutoRunner.StopCurrentTask();
       }
-    }          
-}
+    }
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
