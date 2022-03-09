@@ -17,6 +17,7 @@ import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.RgbSensorRunnable;
+import frc.systems.TaskClimb;
 import frc.systems.AutoRunner.DRIVETRAIN_CONTROL_TYPE;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
@@ -28,12 +29,11 @@ public class Robot extends TimedRobot {
 
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
-  public static Joystick xboxJoystick;
+  public static XboxController xboxController;
   public static Intake intake;
   public static ControlShooter shooterControler;
+  public static TaskClimb climb;
   public static HoodActuator hActuator;
-
-  private static Thread myRgbSensorThread;
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -45,11 +45,11 @@ public class Robot extends TimedRobot {
 
   public static LimitSwitch lowerLimitSwitch;
   public static LimitSwitch upperLimitSwitch;
-  public static XboxController xboxController;
 
   private Debouncer myDebouncer;
   private Boolean prevAutoClimbButtonState = false;
 
+  public static Climber climber;
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -98,6 +98,8 @@ public class Robot extends TimedRobot {
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
     myAutonomous.start();
+//climber initializaton
+    climber = new Climber(RoboRioPorts.CAN_RIGHT_CLIMB, RoboRioPorts.CAN_LEFT_CLIMB);
   }
 
   public Boolean IsAutoClimbButtonPushed() {
@@ -127,6 +129,7 @@ public class Robot extends TimedRobot {
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
+//myAutoRunner.DoCurrentTask();
 
     myAutoRunner.DoCurrentTask();
   }
@@ -189,6 +192,7 @@ public class Robot extends TimedRobot {
         myAutoRunner.StopCurrentTask();
       }
     }
+    climber.runClimb();
   }
 
   /** This function is called once when the robot is disabled. */
