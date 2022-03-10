@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.AutoRunner;
 import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
-import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.RgbSensorRunnable;
 import frc.utilities.LimitSwitch;
@@ -30,7 +29,6 @@ public class Robot extends TimedRobot {
   public static Joystick xboxJoystick;
   public static Intake intake;
   public static ControlShooter shooterControler;
-  public static HoodActuator hActuator;
 
   private static Thread myRgbSensorThread;
 
@@ -68,7 +66,7 @@ public class Robot extends TimedRobot {
 
     // intake motor initalization
 
-    intake = new Intake(RoboRioPorts.CAN_INTAKE, RoboRioPorts.INTAKE_SOLENOID);
+    intake = new Intake();
 
     // shooter motor initialization
     shooterControler = new ControlShooter(RoboRioPorts.CAN_SHOOT_UPPER, RoboRioPorts.CAN_SHOOT_LOWER,
@@ -76,9 +74,6 @@ public class Robot extends TimedRobot {
     RgbSensorRunnable rbgSensorRunnable = new RgbSensorRunnable();
     myRgbSensorThread = new Thread(rbgSensorRunnable);
     myRgbSensorThread.start();
-
-    // hood actuator initalization
-    hActuator = new HoodActuator(RoboRioPorts.HOOD_SOLENOID);
 
     // drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
@@ -120,10 +115,10 @@ public class Robot extends TimedRobot {
     shooterControler.runShooter();
     upperLimitSwitch.determineCase();
     lowerLimitSwitch.determineCase();
-    hActuator.toggleShooterHood();
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
+    intake.runIntake();
 
     myAutoRunner.DoCurrentTask();
   }
