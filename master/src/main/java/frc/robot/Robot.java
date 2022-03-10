@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -17,7 +17,6 @@ import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.systems.RgbSensorRunnable;
-import frc.systems.AutoRunner.DRIVETRAIN_CONTROL_TYPE;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
@@ -47,7 +46,6 @@ public class Robot extends TimedRobot {
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
 
-  private Debouncer myDebouncer;
   private Boolean prevAutoClimbButtonState = false;
 
   /**
@@ -57,6 +55,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    CameraServer.startAutomaticCapture();
 
     // Creates objects for the controlers
     leftJoystick = new Joystick(0);
@@ -92,8 +91,6 @@ public class Robot extends TimedRobot {
     driveRateGroup = new Notifier(mDrivetrain::operatorDrive);
     driveRateGroup.startPeriodic(0.05);
     // shooterControler.shooterInit();
-
-    myDebouncer = new Debouncer(0.1, Debouncer.DebounceType.kBoth);
 
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
