@@ -15,7 +15,7 @@ public class Intake {
 
     private static DoubleSolenoid intakeSolenoid;
 
-    private static double intakeMotorPower = 0.5;
+    private static double intakeMotorPower = 0.8;
 
     public Intake(){
         intakeMotor = new VictorSPX(RoboRioPorts.CAN_INTAKE);

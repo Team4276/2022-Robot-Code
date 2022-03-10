@@ -23,6 +23,9 @@ public class RoboRioPorts {
 	public static final int CAN_SHOOT_LOWER = 2;
 	public static final int CAN_SHOOTER = 4;
 
+	public static final int CAN_RIGHT_CLIMB = 30;
+	public static final int CAN_LEFT_CLIMB = 15;
+
 	public static final int CAN_INTAKE = 3; 
 	
 	// *** PNUEMATICS ***

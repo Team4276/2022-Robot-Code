@@ -19,6 +19,7 @@ import frc.systems.RgbSensorRunnable;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
+import frc.systems.Climber;
 
 public class Robot extends TimedRobot {
 
@@ -43,6 +44,8 @@ public class Robot extends TimedRobot {
   public static LimitSwitch lowerLimitSwitch;
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
+
+  public static Climber climber;
 
   private Boolean prevAutoClimbButtonState = false;
 
@@ -86,6 +89,8 @@ public class Robot extends TimedRobot {
     driveRateGroup = new Notifier(mDrivetrain::operatorDrive);
     driveRateGroup.startPeriodic(0.05);
     // shooterControler.shooterInit();
+
+    climber=new Climber();
 
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
@@ -181,6 +186,7 @@ public class Robot extends TimedRobot {
         myAutoRunner.StopCurrentTask();
       }
     }
+    climber.runClimb();
   }
 
   /** This function is called once when the robot is disabled. */
