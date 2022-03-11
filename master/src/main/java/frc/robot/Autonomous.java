@@ -46,7 +46,7 @@ public class Autonomous extends Thread {
 
     }
 
-    public void periodic() {
+    public void autonomousSelector() {
 
         if (Robot.leftJoystick.getRawButton(7) && (selectionMode == COMMIT_MODE)) {
             selectionMode = EDIT_MODE;
