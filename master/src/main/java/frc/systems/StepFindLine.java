@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StepFindLine extends AutoStep {
 
-    private DigitalInput lineSensor_R;
+    private DigitalInput 
+    lineSensor_R;
     private DigitalInput lineSensor_L;
 
 
