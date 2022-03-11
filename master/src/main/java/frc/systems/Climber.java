@@ -1,6 +1,7 @@
 package frc.systems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,8 @@ public class Climber {
         rightClimbMotor = new VictorSPX(RoboRioPorts.CAN_RIGHT_CLIMB);
         leftClimbSwitch = new LimitSwitch(RoboRioPorts.DIO_L_CLIMB_SWITCH);
         rightClimbSwitch = new LimitSwitch(RoboRioPorts.DIO_R_CLIMB_SWITCH);
+        leftClimbMotor.setNeutralMode(NeutralMode.Brake);
+        rightClimbMotor.setNeutralMode(NeutralMode.Brake);
 
     }
 

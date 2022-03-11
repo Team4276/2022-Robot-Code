@@ -34,6 +34,7 @@ public class ControlShooter {
         upperMotor = new VictorSPX(upperMotorCANPort);
         lowerMotor = new VictorSPX(lowerMotorCANPort);
         shooterMotor = new TalonSRX(shooterCANPort);
+        //shootTimer.setTimer(2000);
     }//end constructor
 
     public void shooterInit(){
@@ -104,7 +105,7 @@ public class ControlShooter {
 
         //single action shooter
         if (Robot.xboxController.getRawButton(Xbox.Start)){
-            shootTimer.setTimer(2000);
+            
             if (!shootTimer.isExpired()){
                 shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
                 Timer.delay(.75);
