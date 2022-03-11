@@ -18,6 +18,9 @@ public class AutoTask {
 
     public static StepEnd stepEnd;
     public static StepDelay_1sec stepDelay_1sec;
+    public static StepDrive stepDrive;
+    public static StepFindLine findLine;
+    public static StepAutoShoot autoShooter;
 
     protected AutoStep[] mySteps;
     protected AutoRunner.TASK_ID myTaskID;

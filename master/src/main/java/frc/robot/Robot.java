@@ -125,6 +125,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
     intake.runIntake();
 
+    SmartDashboard.putBoolean("Right DIO", Climber.rightClimbSwitch.get());
+    SmartDashboard.putBoolean("Left DIO", Climber.leftClimbSwitch.get());
+
     myAutoRunner.DoCurrentTask();
   }
 
@@ -164,6 +167,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    myAutoRunner.DoCurrentTask();
   }
 
   /** This function is called once when teleop is enabled. */
@@ -187,6 +191,8 @@ public class Robot extends TimedRobot {
       }
     }
     climber.runClimb();
+
+    myAutoRunner.DoCurrentTask();
   }
 
   /** This function is called once when the robot is disabled. */

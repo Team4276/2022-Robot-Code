@@ -15,7 +15,7 @@ public class Intake {
 
     private static DoubleSolenoid intakeSolenoid;
 
-    private static double intakeMotorPower = 0.8;
+    private static double intakeMotorPower = 1.0;
 
     public Intake(){
         intakeMotor = new VictorSPX(RoboRioPorts.CAN_INTAKE);
@@ -36,12 +36,19 @@ public class Intake {
         intakeMotor.set(ControlMode.PercentOutput, 0);
         
         //raise intake
-        if (Robot.xboxController.getRawAxis(Xbox.LAxisY)>0.2)
-        intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-
+        if (Robot.xboxController.getRawAxis(Xbox.LAxisY)>0.2){
+            intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+        }
+     
         //lower intake 
-        else if (Robot.xboxController.getRawAxis(Xbox.LAxisY)<-0.2)
-            intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-        
+        else if (Robot.xboxController.getRawAxis(Xbox.LAxisY)<-0.2) {
+            intakeSolenoid.set(DoubleSolenoid.Value.kForward);      
+         }
+     
+        //dont move intake 
+        else {
+            intakeSolenoid.set(DoubleSolenoid.Value.kOff);      
+         }
+           
     }//end runIntake()
 }//end class

@@ -29,7 +29,6 @@ public class TaskClimb extends AutoTask {
                 AutoTask.stepDelay_1sec,
                 AutoTask.stepDelay_1sec,
                 AutoTask.stepDelay_1sec,
-                AutoTask.stepDelay_1sec,
                 AutoTask.stepEnd
         };
         taskInit(TASK_ID.CLIMB, stepsForClimbTask);

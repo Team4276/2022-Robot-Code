@@ -26,9 +26,9 @@ public class ControlShooter {
 
     public static SoftwareTimer shootTimer;
     
-    private double highShooterPower = 0.5;//high power can range from 0.9 to 1.0 at a full battery
-    private double feederPower = 0.9;
-    private double lowShooterPower = 0.65;//power for low goal 
+    public static double highShooterPower = 0.5;//high power can range from 0.9 to 1.0 at a full battery
+    public static double feederPower = 0.9;
+    public double lowShooterPower = 0.65;//power for low goal 
     
     public ControlShooter(int upperMotorCANPort, int lowerMotorCANPort, int shooterCANPort ) {
         upperMotor = new VictorSPX(upperMotorCANPort);
