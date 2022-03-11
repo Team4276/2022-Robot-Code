@@ -16,7 +16,6 @@ public class TaskAutoRedLeft extends AutoTask {
         AutoTask.autoShooter,
         AutoTask.stepDrive,
         AutoTask.stepEnd
-    
     };
 
     public TaskAutoRedLeft() {

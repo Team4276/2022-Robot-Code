@@ -19,7 +19,6 @@ public class AutoTask {
     public static StepEnd stepEnd;
     public static StepDelay_1sec stepDelay_1sec;
     public static StepDrive stepDrive;
-    public static StepFindLine findLine;
     public static StepAutoShoot autoShooter;
 
     protected AutoStep[] mySteps;
@@ -30,6 +29,8 @@ public class AutoTask {
     private AutoStep[] stepsForNoneTask;
 
     public AutoTask() {
+        stepDrive = new StepDrive();
+        autoShooter = new StepAutoShoot();
         stepEnd = new StepEnd();
         stepDelay_1sec = new StepDelay_1sec();
 
@@ -46,7 +47,13 @@ public class AutoTask {
     }
 
     public AutoStep getCurrentStep() {
-        return mySteps[myCurrentStepIndex];
+        try {
+            return mySteps[myCurrentStepIndex];
+        } catch (Exception e) {
+            System.err.println("Exception in getCurrentStep");
+            e.printStackTrace();
+        }
+        return new AutoStep();
     }
 
     public int getCurrentStepNumber() {
@@ -54,31 +61,52 @@ public class AutoTask {
     }
 
     public void gotoNextStep() {
-        if (getCurrentStep().stepID != STEP_ID.END) {
-            getCurrentStep().stepExit();
-            myCurrentStepIndex++;
-            getCurrentStep().stepInit();
+        try {
+            if (getCurrentStep().stepID != STEP_ID.END) {
+                getCurrentStep().stepExit();
+                myCurrentStepIndex++;
+                getCurrentStep().stepInit();
+            }
+            SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+            SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
+        } catch (Exception e) {
+            System.err.println("Exception in gotoNextStep");
+            e.printStackTrace();
         }
-        SmartDashboard.putNumber("step# ", getCurrentStepNumber());
-        SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
     }
 
     public void taskStart() {
-        myCurrentStepIndex = 0;
-        SmartDashboard.putNumber("step# ", getCurrentStepNumber());
-        SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
-        getCurrentStep().stepInit();
+        try {
+            myCurrentStepIndex = 0;
+            SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+            SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
+            getCurrentStep().stepInit();
+        } catch (Exception e) {
+            System.err.println("Exception in taskStart");
+            e.printStackTrace();
+        }
     }
 
     public void taskStop() {
-        while (getCurrentStep().stepID != STEP_ID.END) {
-            myCurrentStepIndex++;
-            SmartDashboard.putNumber("step# ", getCurrentStepNumber());
-            SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
+        try {
+            while (getCurrentStep().stepID != STEP_ID.END) {
+                myCurrentStepIndex++;
+                SmartDashboard.putNumber("step# ", getCurrentStepNumber());
+                SmartDashboard.putString("Current step", getCurrentStep().stepID.toString());
+            }
+        } catch (Exception e) {
+            System.err.println("Exception in taskStop");
+            e.printStackTrace();
         }
     }
 
     public Boolean taskIsDone() {
-        return (getCurrentStep().stepID == STEP_ID.END);
+        try {
+            return (getCurrentStep().stepID == STEP_ID.END);
+        } catch (Exception e) {
+            System.err.println("Exception in taskIsDone");
+            e.printStackTrace();
+        }
+        return true;
     }
 }

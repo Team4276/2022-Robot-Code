@@ -254,6 +254,8 @@ public class TCS34725_I2C {
 					try {
 						Thread.sleep((long) (INTEGRATION_TIME_DELAY.get(this.integrationTime) / 1_000L));
 					} catch (Exception e) {
+						System.err.println("Exception in setIntegrationTimeAwaiter");
+						e.printStackTrace();
 					}
 				});
 	}

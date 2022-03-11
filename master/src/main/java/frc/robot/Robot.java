@@ -15,7 +15,6 @@ import frc.systems.AutoRunner;
 import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
 import frc.systems.Intake;
-import frc.systems.RgbSensorRunnable;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
@@ -74,10 +73,7 @@ public class Robot extends TimedRobot {
     // shooter motor initialization
     shooterControler = new ControlShooter(RoboRioPorts.CAN_SHOOT_UPPER, RoboRioPorts.CAN_SHOOT_LOWER,
         RoboRioPorts.CAN_SHOOTER);
-    RgbSensorRunnable rbgSensorRunnable = new RgbSensorRunnable();
-    myRgbSensorThread = new Thread(rbgSensorRunnable);
-    myRgbSensorThread.start();
-
+ 
     // drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
         RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
@@ -133,6 +129,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_LEFT);
+    /*
     if (myAutonomous.team == myAutonomous.red) {
       switch (myAutonomous.startingPosition) {
         case Autonomous.LEFT:
@@ -162,6 +160,7 @@ public class Robot extends TimedRobot {
           break;
       }
     }
+    */
   }
 
   /** This function is called periodically during autonomous. */

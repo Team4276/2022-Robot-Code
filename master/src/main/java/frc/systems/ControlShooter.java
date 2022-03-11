@@ -26,7 +26,7 @@ public class ControlShooter {
 
     public static SoftwareTimer shootTimer;
     
-    public static double highShooterPower = 0.5;//high power can range from 0.9 to 1.0 at a full battery
+    public static double highShooterPower = 1;//high power can range from 0.9 to 1.0 at a full battery
     public static double feederPower = 0.9;
     public double lowShooterPower = 0.65;//power for low goal 
     
@@ -84,6 +84,14 @@ public class ControlShooter {
             Timer.delay(.75);
             upperMotor.set(ControlMode.PercentOutput, feederPower);
             lowerMotor.set(ControlMode.PercentOutput, feederPower);
+            Timer.delay(.75);
+            upperMotor.set(ControlMode.PercentOutput, 0);
+            lowerMotor.set(ControlMode.PercentOutput, 0);
+            Timer.delay(.75);
+            upperMotor.set(ControlMode.PercentOutput, feederPower);
+            lowerMotor.set(ControlMode.PercentOutput, feederPower);
+
+
             
         }//end high shooter action
 
