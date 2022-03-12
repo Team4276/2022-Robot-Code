@@ -18,8 +18,7 @@ public class AutoTask {
 
     public static StepEnd stepEnd;
     public static StepDelay_1sec stepDelay_1sec;
-    public static StepDrive stepDrive;
-    public static StepAutoShoot autoShooter;
+     public static StepAutoShoot autoShooter;
 
     protected AutoStep[] mySteps;
     protected AutoRunner.TASK_ID myTaskID;
@@ -29,8 +28,7 @@ public class AutoTask {
     private AutoStep[] stepsForNoneTask;
 
     public AutoTask() {
-        stepDrive = new StepDrive();
-        autoShooter = new StepAutoShoot();
+         autoShooter = new StepAutoShoot();
         stepEnd = new StepEnd();
         stepDelay_1sec = new StepDelay_1sec();
 

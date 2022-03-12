@@ -25,108 +25,110 @@ public class ControlShooter {
     public static PIDController pidController;
 
     public static SoftwareTimer shootTimer;
-    
-    public static double highShooterPower = 1;//high power can range from 0.9 to 1.0 at a full battery
+
+    public static double highShooterPower = 1;// high power can range from 0.9 to 1.0 at a full battery
     public static double feederPower = 0.9;
-    public double lowShooterPower = 0.65;//power for low goal 
-    
-    public ControlShooter(int upperMotorCANPort, int lowerMotorCANPort, int shooterCANPort ) {
+    public double lowShooterPower = 0.65;// power for low goal
+
+    public ControlShooter(int upperMotorCANPort, int lowerMotorCANPort, int shooterCANPort) {
         upperMotor = new VictorSPX(upperMotorCANPort);
         lowerMotor = new VictorSPX(lowerMotorCANPort);
         shooterMotor = new TalonSRX(shooterCANPort);
-        //shootTimer.setTimer(2000);
-    }//end constructor
+        // shootTimer.setTimer(2000);
+    }// end constructor
 
-    public void shooterInit(){
+    public void shooterInit() {
         shooterMotor.configFactoryDefault(100);
         shooterMotor.setNeutralMode(NeutralMode.Brake);
         shooterMotor.setSelectedSensorPosition(0.0);
-    }//end shooterInit()
+    }// end shooterInit()
 
-    public void runShooter(){
-            
-        //load shooter action
-        //LT ACTION
-        if(Robot.xboxController.getRawAxis(Xbox.LT)>0.1){ 
-            if (LimitSwitch.ballState == BallState.NONE){
-                //upper open; lower open
-                upperMotor.set(ControlMode.PercentOutput, feederPower);
-                lowerMotor.set(ControlMode.PercentOutput, feederPower);
-            }//end if
+    public void runShooter() {
 
-            else if (LimitSwitch.ballState == BallState.LOWER){
-                //upper open; lower closed
-                upperMotor.set(ControlMode.PercentOutput, feederPower);
-                lowerMotor.set(ControlMode.PercentOutput, feederPower);
-            }//end if
-            
-            else if (LimitSwitch.ballState == BallState.UPPER){
-                if(Robot.xboxController.getRawAxis(Xbox.RT)==0){
-                    //upper occupied; lower open
-                    upperMotor.set(ControlMode.PercentOutput, 0);
-                    lowerMotor.set(ControlMode.PercentOutput, feederPower);  
-                }//sets power to upper Limit Switch values if RT is not pressesd
-            }//end else if
+        // load shooter action
+        // LT ACTION
 
-            else if (LimitSwitch.ballState == BallState.BOTH){
-                //RT ACTION
-                if(Robot.xboxController.getRawAxis(Xbox.RT)==0){
-                    //upper occupied; lower occupied
-                    upperMotor.set(ControlMode.PercentOutput, 0);
-                    lowerMotor.set(ControlMode.PercentOutput, 0);
-                }//sets power to 0 if RT is not pressesd
-            }//end ifCcs
-        }//end load shooter action
+        if (!Robot.isAutoMode) {
+            if (Robot.xboxController.getRawAxis(Xbox.LT) > 0.1) {
+                if (LimitSwitch.ballState == BallState.NONE) {
+                    // upper open; lower open
+                    upperMotor.set(ControlMode.PercentOutput, feederPower);
+                    lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                } // end if
 
-        //high shooter action
-        if(Robot.xboxController.getRawAxis(Xbox.RT)>0.1){
-            
-            shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
-            Timer.delay(.75);
-            upperMotor.set(ControlMode.PercentOutput, feederPower);
-            lowerMotor.set(ControlMode.PercentOutput, feederPower);
-            Timer.delay(.75);
-            upperMotor.set(ControlMode.PercentOutput, 0);
-            lowerMotor.set(ControlMode.PercentOutput, 0);
-            Timer.delay(.75);
-            upperMotor.set(ControlMode.PercentOutput, feederPower);
-            lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                else if (LimitSwitch.ballState == BallState.LOWER) {
+                    // upper open; lower closed
+                    upperMotor.set(ControlMode.PercentOutput, feederPower);
+                    lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                } // end if
 
+                else if (LimitSwitch.ballState == BallState.UPPER) {
+                    if (Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
+                        // upper occupied; lower open
+                        upperMotor.set(ControlMode.PercentOutput, 0);
+                        lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                    } // sets power to upper Limit Switch values if RT is not pressesd
+                } // end else if
 
-            
-        }//end high shooter action
+                else if (LimitSwitch.ballState == BallState.BOTH) {
+                    // RT ACTION
+                    if (Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
+                        // upper occupied; lower occupied
+                        upperMotor.set(ControlMode.PercentOutput, 0);
+                        lowerMotor.set(ControlMode.PercentOutput, 0);
+                    } // sets power to 0 if RT is not pressesd
+                } // end ifCcs
+            } // end load shooter action
 
-        if(Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
-            upperMotor.set(ControlMode.PercentOutput, 0);
-            lowerMotor.set(ControlMode.PercentOutput, 0);
-            shooterMotor.set(ControlMode.PercentOutput, 0);
+            // high shooter action
+            if (Robot.xboxController.getRawAxis(Xbox.RT) > 0.1) {
 
-        }//end reset motor power action
-
-        //single action shooter
-        if (Robot.xboxController.getRawButton(Xbox.Start)){
-            
-            if (!shootTimer.isExpired()){
                 shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
                 Timer.delay(.75);
                 upperMotor.set(ControlMode.PercentOutput, feederPower);
                 lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                Timer.delay(.75);
+                upperMotor.set(ControlMode.PercentOutput, 0);
+                lowerMotor.set(ControlMode.PercentOutput, 0);
+                Timer.delay(.75);
+                upperMotor.set(ControlMode.PercentOutput, feederPower);
+                lowerMotor.set(ControlMode.PercentOutput, feederPower);
+
+            } // end high shooter action
+
+            if (Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
+                upperMotor.set(ControlMode.PercentOutput, 0);
+                lowerMotor.set(ControlMode.PercentOutput, 0);
+                shooterMotor.set(ControlMode.PercentOutput, 0);
+
+            } // end reset motor power action
+
+            // single action shooter
+            if (Robot.xboxController.getRawButton(Xbox.Start)) {
+
+                if (!shootTimer.isExpired()) {
+                    shooterMotor.set(ControlMode.PercentOutput, highShooterPower);
+                    Timer.delay(.75);
+                    upperMotor.set(ControlMode.PercentOutput, feederPower);
+                    lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                }
             }
+
         }
 
-        //Smart Dashboard outputs 
+        // Smart Dashboard outputs
 
         SmartDashboard.putNumber("Upper Motor Speed", upperMotor.getMotorOutputPercent());
         SmartDashboard.putNumber("Lower Motor Speed", lowerMotor.getMotorOutputPercent());
 
-        if (LimitSwitch.ballState == BallState.NONE)       
-        SmartDashboard.putString("INDEX STATUS:", "INDEXER EMPTY. PRESS LT TO LOAD");
-        else if(LimitSwitch.ballState == BallState.LOWER)
-        SmartDashboard.putString("INDEX STATUS:", "ONE BALL IN LOW POSITION. PRESS LT TO LOAD");
-        else if(LimitSwitch.ballState == BallState.UPPER)
-        SmartDashboard.putString("INDEX STATUS:", "ONE BALL IN UPPER POSITION. PRESS LT TO LOAD");
-        else if(LimitSwitch.ballState == BallState.BOTH)
-        SmartDashboard.putString("INDEX STATUS:", "INDEXER FULL. BOMBS AWAY!!");
+        if (LimitSwitch.ballState == BallState.NONE)
+            SmartDashboard.putString("INDEX STATUS:", "INDEXER EMPTY. PRESS LT TO LOAD");
+        else if (LimitSwitch.ballState == BallState.LOWER)
+            SmartDashboard.putString("INDEX STATUS:", "ONE BALL IN LOW POSITION. PRESS LT TO LOAD");
+        else if (LimitSwitch.ballState == BallState.UPPER)
+            SmartDashboard.putString("INDEX STATUS:", "ONE BALL IN UPPER POSITION. PRESS LT TO LOAD");
+        else if (LimitSwitch.ballState == BallState.BOTH)
+            SmartDashboard.putString("INDEX STATUS:", "INDEXER FULL. BOMBS AWAY!!");
 
-    }//end runShooter()
-}//end class
+    }// end runShooter()
+}// end class

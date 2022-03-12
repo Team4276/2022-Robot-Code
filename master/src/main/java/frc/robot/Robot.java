@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.systems.AutoCode;
 import frc.systems.AutoRunner;
 import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
@@ -18,6 +21,7 @@ import frc.systems.Intake;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
+import frc.utilities.SoftwareTimer;
 import frc.systems.Climber;
 
 public class Robot extends TimedRobot {
@@ -30,7 +34,8 @@ public class Robot extends TimedRobot {
   public static Intake intake;
   public static ControlShooter shooterControler;
 
-  private static Thread myRgbSensorThread;
+  public static AutoCode myAutoCode;
+
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -47,6 +52,8 @@ public class Robot extends TimedRobot {
   public static Climber climber;
 
   private Boolean prevAutoClimbButtonState = false;
+
+  public static  Boolean isAutoMode = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -91,6 +98,8 @@ public class Robot extends TimedRobot {
     myAutoRunner = new AutoRunner();
     myAutonomous = new Autonomous();
     myAutonomous.start();
+
+
   }
 
   public Boolean IsAutoClimbButtonPushed() {
@@ -124,54 +133,30 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Right DIO", Climber.rightClimbSwitch.get());
     SmartDashboard.putBoolean("Left DIO", Climber.leftClimbSwitch.get());
 
-    myAutoRunner.DoCurrentTask();
+    //myAutoRunner.DoCurrentTask();
   }
 
   @Override
   public void autonomousInit() {
-    myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_LEFT);
-    /*
-    if (myAutonomous.team == myAutonomous.red) {
-      switch (myAutonomous.startingPosition) {
-        case Autonomous.LEFT:
-          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_LEFT);
-          break;
+    
+  isAutoMode = true;
 
-        case Autonomous.CENTER:
-          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_CENTER);
-          break;
+    myAutoCode = new AutoCode();
 
-        case Autonomous.RIGHT:
-          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_RED_RIGHT);
-          break;
-      }
-    } else { // blue
-      switch (myAutonomous.startingPosition) {
-        case Autonomous.LEFT:
-          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_BLUE_LEFT);
-          break;
-
-        case Autonomous.CENTER:
-          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_BLUE_CENTER);
-          break;
-
-        case Autonomous.RIGHT:
-          myAutoRunner.StartTask(AutoRunner.TASK_ID.AUTO_BLUE_RIGHT);
-          break;
-      }
-    }
-    */
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    myAutoRunner.DoCurrentTask();
+    //myAutoRunner.DoCurrentTask();
+    myAutoCode.runAuto();
+
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+    isAutoMode = false;
   }
 
   /** This function is called periodically during operator control. */
@@ -191,7 +176,7 @@ public class Robot extends TimedRobot {
     }
     climber.runClimb();
 
-    myAutoRunner.DoCurrentTask();
+    //myAutoRunner.DoCurrentTask();
   }
 
   /** This function is called once when the robot is disabled. */

@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Autonomous extends Thread {
     // Selection modes
-    private final int COMMIT_MODE = 0;
-    private final int EDIT_MODE = 1;
-    public String[] selectionModeArray = new String[2];
+    private final static int COMMIT_MODE = 0;
+    private final static int EDIT_MODE = 1;
+    public static String[] selectionModeArray = new String[2];
 
     // Starting positions
     public static enum StartingPosition {
@@ -19,18 +19,18 @@ public class Autonomous extends Thread {
     static final int CENTER = 1;
     static final int RIGHT = 2;
     static String[] startPositionArray = new String[3];
-    final int red = 0;
-    private final int blue = 1;
+    final static int red = 0;
+    private final static int blue = 1;
     static String[] redStartPositionArray = new String[3];
     static String[] blueStartPositionArray = new String[3];
     static String[] teamSelectionArray = new String[3];
     // Starting positions
 
-    public int startingPosition = 0;
-    public int team = 0;
+    public static int startingPosition = 0;
+    public static int team = 0;
     static int autoModeToExecute;
     public boolean breakLoop = false;
-    public int selectionMode = COMMIT_MODE;
+    public static int selectionMode = COMMIT_MODE;
 
     public Autonomous() {
         selectionModeArray[COMMIT_MODE] = "Commit mode";
@@ -46,7 +46,7 @@ public class Autonomous extends Thread {
 
     }
 
-    public void autonomousSelector() {
+    public static void autonomousSelector() {
 
         if (Robot.leftJoystick.getRawButton(7) && (selectionMode == COMMIT_MODE)) {
             selectionMode = EDIT_MODE;

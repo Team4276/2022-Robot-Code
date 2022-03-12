@@ -14,8 +14,7 @@ public class TaskAutoRedCenter extends AutoTask {
  
     private final AutoStep[] stepsForAutoTask = {
         AutoTask.autoShooter,
-        AutoTask.stepDrive,
-        AutoTask.stepEnd
+         AutoTask.stepEnd
     
     };
 

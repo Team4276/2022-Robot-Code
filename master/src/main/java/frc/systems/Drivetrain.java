@@ -116,7 +116,7 @@ public class Drivetrain {
 
     public void operatorDrive() {
 
-        if (AutoRunner.myDrivetrainControl != AutoRunner.DRIVETRAIN_CONTROL_TYPE.AUTO) {
+        if (!Robot.isAutoMode) {
             changeMode();
             checkForGearShift();
             if (currentMode == DriveMode.ARCADE) {

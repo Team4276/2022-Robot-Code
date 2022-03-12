@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.utilities.LimitSwitch;
 import frc.utilities.RoboRioPorts;
@@ -29,19 +28,16 @@ public class Climber {
     }
 
     public void runClimb(){
+        //x = down
+        //y = up
+
+
         if (Robot.xboxController.getRawButton(Xbox.X)){
             leftClimbMotor.set(ControlMode.PercentOutput, 1);
             rightClimbMotor.set(ControlMode.PercentOutput, 1);
             //Climber go Down(Make Robot go Up)
         } 
         else if (Robot.xboxController.getRawButton(Xbox.Y)){
-            if (leftClimbSwitch.get()||rightClimbSwitch.get()){
-                if (leftClimbSwitch.get())
-                leftClimbMotor.set(ControlMode.PercentOutput, 0);
-                if(rightClimbSwitch.get())
-                rightClimbMotor.set(ControlMode.PercentOutput, 0);
-            }//CLimber go up
-            else
             leftClimbMotor.set(ControlMode.PercentOutput, -0.5);
             rightClimbMotor.set(ControlMode.PercentOutput, -0.5);
   
