@@ -21,9 +21,10 @@ public class Robot extends TimedRobot {
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
 
-  public static AutoRunner myAutoRunner;
-
   public Autonomous myAutonomous;
+public static AutoRunner myAutoRunner;
+
+  private Boolean prevAutoClimbButtonState = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -54,7 +55,8 @@ public class Robot extends TimedRobot {
   }
 
   public static Boolean IsAutoClimbButtonPushed() {
-    return leftJoystick.getRawButton(LogJoystick.B2);
+    //return myDebouncer.calculate(leftJoystick.getRawButton(LogJoystick.B12));
+    return leftJoystick.getRawButton(LogJoystick.B12);
   }
 
   /**
@@ -113,6 +115,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+myAutoRunner.DoCurrentTask();
 
   }
 
@@ -124,6 +127,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
+    if (IsAutoClimbButtonPushed()) {
+      if (!prevAutoClimbButtonState) {
+        prevAutoClimbButtonState = true;
+        myAutoRunner.StartTask(AutoRunner.TASK_ID.CLIMB);
+      }
+    } else { // button NOT pressed
+      if (prevAutoClimbButtonState) {
+        prevAutoClimbButtonState = false;
+        myAutoRunner.StopCurrentTask();
+      }
+    }
+ 
+    myAutoRunner.DoCurrentTask();
   }
 
   /** This function is called once when the robot is disabled. */

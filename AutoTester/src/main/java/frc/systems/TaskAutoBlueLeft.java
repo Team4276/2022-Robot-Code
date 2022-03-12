@@ -13,7 +13,10 @@ import frc.systems.AutoRunner.TASK_ID;
 public class TaskAutoBlueLeft extends AutoTask {
  
     private final AutoStep[] stepsForAutoTask = {
-              AutoTask.stepEnd };
+        AutoTask.autoShooter,
+         AutoTask.stepEnd
+    
+    };
 
     public TaskAutoBlueLeft() {
         super();

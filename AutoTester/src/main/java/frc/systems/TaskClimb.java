@@ -12,18 +12,14 @@ import frc.systems.AutoRunner.TASK_ID;
 
 public class TaskClimb extends AutoTask {
 
-    public StepFindLine stepFindLine;
-
-    private AutoStep[] stepsForClimbTask;
+    public static AutoStep[] stepsForClimbTask;
     
     public TaskClimb() {
         super();
 
-        stepFindLine = new StepFindLine();
+        taskDrivetrainRequired = AutoRunner.DRIVETRAIN_CONTROL_TYPE.AUTO;
 
         stepsForClimbTask = new AutoStep[] {
-                stepFindLine,
-                AutoTask.stepDelay_1sec,
                 AutoTask.stepDelay_1sec,
                 AutoTask.stepDelay_1sec,
                 AutoTask.stepDelay_1sec,
