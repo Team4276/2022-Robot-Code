@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
@@ -14,15 +12,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.AutoCode;
-import frc.systems.AutoRunner;
+import frc.systems.Climber;
 import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
 import frc.systems.Intake;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
-import frc.utilities.SoftwareTimer;
-import frc.systems.Climber;
 
 public class Robot extends TimedRobot {
 
@@ -43,8 +39,7 @@ public class Robot extends TimedRobot {
   public static Timer systemTimer;
 
   public Autonomous myAutonomous;
-  public static AutoRunner myAutoRunner;
-
+  
   public static LimitSwitch lowerLimitSwitch;
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
@@ -95,8 +90,7 @@ public class Robot extends TimedRobot {
 
     climber=new Climber();
 
-    myAutoRunner = new AutoRunner();
-    myAutonomous = new Autonomous();
+        myAutonomous = new Autonomous();
     myAutonomous.start();
 
 
@@ -162,18 +156,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
-    if (IsAutoClimbButtonPushed()) {
-      if (!prevAutoClimbButtonState) {
-        prevAutoClimbButtonState = true;
-        myAutoRunner.StartTask(AutoRunner.TASK_ID.CLIMB);
-      }
-    } else { // button NOT pressed
-      if (prevAutoClimbButtonState) {
-        prevAutoClimbButtonState = false;
-        myAutoRunner.StopCurrentTask();
-      }
-    }
     climber.runClimb();
 
     //myAutoRunner.DoCurrentTask();
