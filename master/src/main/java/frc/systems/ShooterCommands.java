@@ -3,9 +3,12 @@ package frc.systems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.utilities.LimitSwitch;
 import frc.utilities.SoftwareTimer;
@@ -21,18 +24,96 @@ public class ShooterCommands {
 
     public static SoftwareTimer shootDelay;
 
+    private SparkMaxPIDController pidController;
+    private RelativeEncoder encoder;
+    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+
     public static double highShooterPower = 1;// high power can range from 0.9 to 1.0 at a full battery
     public static double feederPower = 0.9;
     public double lowShooterPower = 0.65;
 
     public ShooterCommands() {
+
+        //motor initialization
+
         upperMotor = new VictorSPX(RoboRioPorts.CAN_SHOOT_UPPER);
         lowerMotor = new VictorSPX(RoboRioPorts.CAN_SHOOT_LOWER);
         shooterMotor = new CANSparkMax(RoboRioPorts.CAN_SHOOTER, MotorType.kBrushless);
+        shooterMotor.restoreFactoryDefaults();
+        pidController = shooterMotor.getPIDController();
+        encoder = shooterMotor.getEncoder();
+
+        //PID Coefficients
+
+        kP = 6e-5; 
+        kI = 0;
+        kD = 0; 
+        kIz = 0; 
+        kFF = 0.000015; 
+        kMaxOutput = 1; 
+        kMinOutput = -1;
+        maxRPM = 5700;
+
     }
 
+    public void setPID(){
+
+        //set PID coefficients
+
+        pidController.setP(kP);
+        pidController.setI(kI);
+        pidController.setD(kD);
+        pidController.setIZone(kIz);
+        pidController.setFF(kFF);
+        pidController.setOutputRange(kMinOutput, kMaxOutput);
+    }
+
+    public void displayPID(){
+
+        // display PID coefficients on SmartDashboard
+
+        SmartDashboard.putNumber("P Gain", kP);
+        SmartDashboard.putNumber("I Gain", kI);
+        SmartDashboard.putNumber("D Gain", kD);
+        SmartDashboard.putNumber("I Zone", kIz);
+        SmartDashboard.putNumber("Feed Forward", kFF);
+        SmartDashboard.putNumber("Max Output", kMaxOutput);
+        SmartDashboard.putNumber("Min Output", kMinOutput);
+    }
+
+    public void runPID(){
+
+        // read PID coefficients from SmartDashboard
+
+        double p = SmartDashboard.getNumber("P Gain", 0);
+        double i = SmartDashboard.getNumber("I Gain", 0);
+        double d = SmartDashboard.getNumber("D Gain", 0);
+        double iz = SmartDashboard.getNumber("I Zone", 0);
+        double ff = SmartDashboard.getNumber("Feed Forward", 0);
+        double max = SmartDashboard.getNumber("Max Output", 0);
+        double min = SmartDashboard.getNumber("Min Output", 0);
+
+        // if PID coefficients on SmartDashboard have changed, write new values to controller
+
+        if((p != kP)) { pidController.setP(p); kP = p; }
+        if((i != kI)) { pidController.setI(i); kI = i; }
+        if((d != kD)) { pidController.setD(d); kD = d; }
+        if((iz != kIz)) { pidController.setIZone(iz); kIz = iz; }
+        if((ff != kFF)) { pidController.setFF(ff); kFF = ff; }
+        if((max != kMaxOutput) || (min != kMinOutput)) { 
+            pidController.setOutputRange(min, max); 
+            kMinOutput = min; kMaxOutput = max; 
+        }
+
+        double setPoint = highShooterPower*maxRPM;
+        pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+        
+        SmartDashboard.putNumber("SetPoint", setPoint);
+        SmartDashboard.putNumber("ProcessVariable", encoder.getVelocity());
+    }
 
     public void feedIndexer(){
+
         /**
          * This method uses the upper and lower limit switches on the indexer 
          * to feed the balls into the indexer. It runs/stops the feeder motors 
@@ -107,7 +188,7 @@ public class ShooterCommands {
     
     public void motorStop(){
 
-        /**Method that stops all the motors in the shooter assembly */
+        /**Method that stops all the motors in the shooter assembly **/
 
         upperMotor.set(ControlMode.PercentOutput, 0);
         lowerMotor.set(ControlMode.PercentOutput, 0);

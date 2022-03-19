@@ -51,4 +51,14 @@ public class ControlShooter extends ShooterCommands{
             SmartDashboard.putString("INDEX STATUS:", "INDEXER FULL. BOMBS AWAY!!");
 
     }// end runShooter()
+
+    public void runPIDControl(){
+        //TODO: remember to setPID init
+        super.displayPID();
+
+        if (Robot.xboxController.getRawAxis(Xbox.LT) > 0.1) {
+            super.runPID();
+        } 
+    }
+
 }// end class

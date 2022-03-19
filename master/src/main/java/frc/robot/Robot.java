@@ -67,7 +67,6 @@ public class Robot extends TimedRobot {
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxController = new XboxController(2);
-    mySpark = new Spark(4324);
     
 
     // limit switch initialization
