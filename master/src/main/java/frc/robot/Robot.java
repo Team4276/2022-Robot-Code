@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.AutoCode;
 import frc.systems.Climber;
@@ -19,6 +20,9 @@ import frc.systems.Intake;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+
+
 
 public class Robot extends TimedRobot {
 
@@ -29,9 +33,9 @@ public class Robot extends TimedRobot {
   public static Joystick xboxJoystick;
   public static Intake intake;
   public static ControlShooter shooterControler;
-
+  public static Spark mySpark;
+  public static MotorController myController;
   public static AutoCode myAutoCode;
-
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -63,6 +67,8 @@ public class Robot extends TimedRobot {
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxController = new XboxController(2);
+    mySpark = new Spark(4324);
+    
 
     // limit switch initialization
     lowerLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_LOWER_SWITCH);
@@ -73,8 +79,7 @@ public class Robot extends TimedRobot {
     intake = new Intake();
 
     // shooter motor initialization
-    shooterControler = new ControlShooter(RoboRioPorts.CAN_SHOOT_UPPER, RoboRioPorts.CAN_SHOOT_LOWER,
-        RoboRioPorts.CAN_SHOOTER);
+    shooterControler = new ControlShooter();
  
     // drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
@@ -126,6 +131,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("Right DIO", Climber.rightClimbSwitch.get());
     SmartDashboard.putBoolean("Left DIO", Climber.leftClimbSwitch.get());
+    
 
     //myAutoRunner.DoCurrentTask();
   }

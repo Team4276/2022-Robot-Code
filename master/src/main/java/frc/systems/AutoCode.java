@@ -22,7 +22,7 @@ public static SoftwareTimer autoShootTimer;
 
   public void runAuto(){
     if (!autoShootTimer.isExpired()) {
-        ControlShooter.shooterMotor.set(ControlMode.PercentOutput, ControlShooter.highShooterPower);
+        ControlShooter.shooterMotor.set(ControlShooter.highShooterPower);
         if (shooterDelay.isExpired()) {
             ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
             ControlShooter.lowerMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
@@ -34,7 +34,7 @@ public static SoftwareTimer autoShootTimer;
 
           ControlShooter.upperMotor.set(ControlMode.PercentOutput, 0);
           ControlShooter.lowerMotor.set(ControlMode.PercentOutput, 0);
-          ControlShooter.shooterMotor.set(ControlMode.PercentOutput, 0);
+          ControlShooter.shooterMotor.set(0);
           Robot.mDrivetrain.assignMotorPower(-0.4, -0.4);
           if(reverseDelay.isExpired()){
             Robot.mDrivetrain.assignMotorPower(0, 0);
