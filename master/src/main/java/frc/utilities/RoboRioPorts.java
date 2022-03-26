@@ -35,6 +35,9 @@ public class RoboRioPorts {
 	public static final int INTAKE_SOLENOID1 = 2;
 	public static final int INTAKE_SOLENOID2 = 3;
 
+	public static final int CLIMBER_LATCH_SOLENOID1 = 6;
+	public static final int CLIMBER_LATCH_SOLENOID2 = 7;
+
 	// *** DIO ***
 	public static final int DIO_DRIVE_LEFT_A = 0;
 	public static final int DIO_DRIVE_LEFT_B = 1;

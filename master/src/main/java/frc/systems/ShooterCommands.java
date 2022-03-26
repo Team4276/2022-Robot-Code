@@ -24,11 +24,12 @@ public class ShooterCommands {
 
     public static SoftwareTimer shootDelay;
 
+    public static double highShooterPower = -0.55;// high power can range from 0.9 to 1.0 at a full battery
+
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
-    public static double highShooterPower = 1;// high power can range from 0.9 to 1.0 at a full battery
     public static double feederPower = 0.9;
     public double lowShooterPower = 0.65;
 

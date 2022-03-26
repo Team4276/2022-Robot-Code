@@ -30,25 +30,17 @@ public static SoftwareTimer autoShootTimer;
     }
       
     else{
-        if (!isTaskFinished){
+      if (!isTaskFinished){
 
-          ControlShooter.upperMotor.set(ControlMode.PercentOutput, 0);
-          ControlShooter.lowerMotor.set(ControlMode.PercentOutput, 0);
-          ControlShooter.shooterMotor.set(0);
-          Robot.mDrivetrain.assignMotorPower(-0.4, -0.4);
-          if(reverseDelay.isExpired()){
-            Robot.mDrivetrain.assignMotorPower(0, 0);
-            isTaskFinished = true;
-          }
-          
-
-
+        ControlShooter.upperMotor.set(ControlMode.PercentOutput, 0);
+        ControlShooter.lowerMotor.set(ControlMode.PercentOutput, 0);
+        ControlShooter.shooterMotor.set(0);
+        Robot.mDrivetrain.assignMotorPower(-0.4, -0.4);
+        if(reverseDelay.isExpired()){
+          Robot.mDrivetrain.assignMotorPower(0, 0);
+          isTaskFinished = true;
         }
-        
-        
-        
-        
+      }
     }       
-  }
-    
+  }  
 }

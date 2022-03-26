@@ -126,11 +126,7 @@ public class Robot extends TimedRobot {
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
-    intake.runIntake();
-
-    SmartDashboard.putBoolean("Right DIO", Climber.rightClimbSwitch.get());
-    SmartDashboard.putBoolean("Left DIO", Climber.leftClimbSwitch.get());
-    
+    intake.runIntake();    
 
     //myAutoRunner.DoCurrentTask();
   }
