@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -16,6 +17,7 @@ import frc.systems.AutoCode;
 import frc.systems.Climber;
 import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
+import frc.systems.HoodActuator;
 import frc.systems.Intake;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
@@ -36,6 +38,8 @@ public class Robot extends TimedRobot {
   public static Spark mySpark;
   public static MotorController myController;
   public static AutoCode myAutoCode;
+
+  public static HoodActuator hoodActuator;
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
@@ -67,6 +71,7 @@ public class Robot extends TimedRobot {
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxController = new XboxController(2);
+    hoodActuator = new HoodActuator();
     
 
     // limit switch initialization
@@ -126,7 +131,10 @@ public class Robot extends TimedRobot {
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
-    intake.runIntake();    
+    intake.runIntake(); 
+       
+    hoodActuator.runHoodActuator();
+
 
     //myAutoRunner.DoCurrentTask();
   }
