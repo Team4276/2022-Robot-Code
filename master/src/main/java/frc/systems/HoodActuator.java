@@ -4,41 +4,38 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Robot;
-import frc.utilities.SoftwareTimer;
 import frc.utilities.Xbox;
 
 public class HoodActuator {
 
     public static DoubleSolenoid hoodSolenoid;
-    public static Boolean hoodState;
-    public static SoftwareTimer hoodActuatorTimer;
+
+    public static enum HoodState{
+        HIGH,
+        LOW,
+    }
+
+    public static HoodState hoodState;
 
     public HoodActuator(){
         hoodSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-        hoodActuatorTimer = new SoftwareTimer();
     }
 
     public void runHoodActuator(){
 
         if(Robot.xboxController.getRawButton(Xbox.A)){
-            if (hoodState){
-                if(hoodActuatorTimer.isExpired()){
-                    hoodSolenoid.set(Value.kForward);
-                    hoodState = false;
-                    hoodActuatorTimer.setTimer(0.5);
-                }
-            }
-            else{
-                if (hoodActuatorTimer.isExpired()){
-                    hoodSolenoid.set(Value.kReverse);
-                    hoodState = true;
-                    hoodActuatorTimer.setTimer(0.5);
-                }
-                
-            }
+            hoodSolenoid.set(Value.kForward);
+            hoodState = HoodState.HIGH;
         }
-        else
+            
+        else if (Robot.xboxController.getRawButton(Xbox.B)){
+            hoodSolenoid.set(Value.kReverse);
+            hoodState = HoodState.LOW;
+        }
+                
+        else{
         hoodSolenoid.set(Value.kOff);
+        }
 
     }
 }

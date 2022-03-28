@@ -2,6 +2,7 @@ package frc.systems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.systems.HoodActuator.HoodState;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LimitSwitch.BallState;
 import frc.utilities.Xbox;
@@ -21,15 +22,13 @@ public class ControlShooter extends ShooterCommands{
                super.feedIndexer();
             } 
 
-            // high shooter action
+            //shooter action (high and low depending on if the hood is up or down )
             if (Robot.xboxController.getRawAxis(Xbox.RT) > 0.1) {
+                if (HoodActuator.hoodState == HoodState.HIGH)
                 super.shootHigh();
-            } 
-
-            //low shooter action
-            if (Robot.xboxController.getRawButton(Xbox.Start)){
+                else if (HoodActuator.hoodState == HoodState.LOW)
                 super.shootLow();
-            }
+            } 
                 
             //stop motor action
             if (Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {

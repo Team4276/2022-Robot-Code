@@ -1,14 +1,11 @@
 package frc.systems;
 
-import javax.swing.border.SoftBevelBorder;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Robot;
 import frc.utilities.RoboRioPorts;
@@ -74,8 +71,8 @@ public class Climber {
                 
             }
         }
-        //else
-        //climberLatchSolenoid.set(Value.kOff);
+        else
+        climberLatchSolenoid.set(Value.kOff);
 
     }
                       

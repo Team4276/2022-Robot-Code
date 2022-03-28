@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,12 +23,9 @@ import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
-
-
 public class Robot extends TimedRobot {
 
   // Declaring all the objects we need to use in this class
-
   public static Joystick leftJoystick;
   public static Joystick rightJoystick;
   public static Joystick xboxJoystick;
@@ -60,8 +56,7 @@ public class Robot extends TimedRobot {
 
   /**
    * This function is run when the robot is first started up and should be used
-   * for any
-   * initialization code.
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
@@ -70,16 +65,13 @@ public class Robot extends TimedRobot {
     // Creates objects for the controlers
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
-    xboxController = new XboxController(2);
-    hoodActuator = new HoodActuator();
-    
+    xboxController = new XboxController(2);    
 
     // limit switch initialization
     lowerLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_LOWER_SWITCH);
     upperLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_UPPER_SWITCH);
 
     // intake motor initalization
-
     intake = new Intake();
 
     // shooter motor initialization
@@ -97,11 +89,15 @@ public class Robot extends TimedRobot {
     driveRateGroup.startPeriodic(0.05);
     // shooterControler.shooterInit();
 
+    //climber initialization
     climber=new Climber();
 
-        myAutonomous = new Autonomous();
+    //autonomous init
+    myAutonomous = new Autonomous();
     myAutonomous.start();
 
+    //hood actuator init
+    hoodActuator = new HoodActuator();
 
   }
 
@@ -151,7 +147,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    //myAutoRunner.DoCurrentTask();
     myAutoCode.runAuto();
 
   }

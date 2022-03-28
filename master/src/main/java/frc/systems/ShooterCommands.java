@@ -24,19 +24,18 @@ public class ShooterCommands {
 
     public static SoftwareTimer shootDelay;
 
-    public static double highShooterPower = -1.0;// high power can range from 0.9 to 1.0 at a full battery
+    public static double highShooterPower = -0.80;// high power can range from 0.9 to 1.0 at a full battery
 
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
     public static double feederPower = 0.9;
-    public double lowShooterPower = 0.65;
+    public double lowShooterPower = -0.4;
 
     public ShooterCommands() {
 
         //motor initialization
-
         upperMotor = new VictorSPX(RoboRioPorts.CAN_SHOOT_UPPER);
         lowerMotor = new VictorSPX(RoboRioPorts.CAN_SHOOT_LOWER);
         shooterMotor = new CANSparkMax(RoboRioPorts.CAN_SHOOTER, MotorType.kBrushless);
@@ -45,7 +44,6 @@ public class ShooterCommands {
         encoder = shooterMotor.getEncoder();
 
         //PID Coefficients
-
         kP = 6e-5; 
         kI = 0;
         kD = 0; 
@@ -60,7 +58,6 @@ public class ShooterCommands {
     public void setPID(){
 
         //set PID coefficients
-
         pidController.setP(kP);
         pidController.setI(kI);
         pidController.setD(kD);
@@ -85,7 +82,6 @@ public class ShooterCommands {
     public void runPID(){
 
         // read PID coefficients from SmartDashboard
-
         double p = SmartDashboard.getNumber("P Gain", 0);
         double i = SmartDashboard.getNumber("I Gain", 0);
         double d = SmartDashboard.getNumber("D Gain", 0);
@@ -181,7 +177,13 @@ public class ShooterCommands {
      */
 
         shooterMotor.set(lowShooterPower);
-        Timer.delay(0.25);
+        Timer.delay(0.75);
+        upperMotor.set(ControlMode.PercentOutput, feederPower);
+        lowerMotor.set(ControlMode.PercentOutput, feederPower);
+        Timer.delay(.75);
+        upperMotor.set(ControlMode.PercentOutput, 0);
+        lowerMotor.set(ControlMode.PercentOutput, 0);
+        Timer.delay(.05);
         upperMotor.set(ControlMode.PercentOutput, feederPower);
         lowerMotor.set(ControlMode.PercentOutput, feederPower);
 
