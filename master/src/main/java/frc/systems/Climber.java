@@ -20,7 +20,7 @@ public class Climber {
 
     public DoubleSolenoid climberLatchSolenoid;
 
-    private boolean isLatchExtended;
+    public boolean isLatchExtended;
 
     private SoftwareTimer latchTimer;
 

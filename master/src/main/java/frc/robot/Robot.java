@@ -5,11 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.systems.AutoCode;
@@ -21,7 +23,6 @@ import frc.systems.Intake;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 public class Robot extends TimedRobot {
 
@@ -155,6 +156,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     isAutoMode = false;
+    climber.climberLatchSolenoid.set(Value.kReverse);
+    climber.isLatchExtended = false;
   }
 
   /** This function is called periodically during operator control. */
