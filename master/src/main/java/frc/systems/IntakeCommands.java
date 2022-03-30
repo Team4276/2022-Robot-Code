@@ -26,7 +26,7 @@ public class IntakeCommands{
         intakeTimer = new SoftwareTimer();  
     }
 
-    public static void intakeBalls(){
+    public void intakeBalls(){
         intakeMotor.set(ControlMode.PercentOutput, -intakeMotorPower);
     }
 
@@ -34,12 +34,12 @@ public class IntakeCommands{
         intakeMotor.set(ControlMode.PercentOutput, intakeMotorPower);
     }
 
-    public static void raiseIntake(){
+    public void raiseIntake(){
         intakeSolenoid.set(DoubleSolenoid.Value.kForward);
         isIntakeRetracted = false;
     }
 
-    public static void lowerIntake(){
+    public void lowerIntake(){
                     
         if (isIntakeRetracted){
             if(intakeTimer.isExpired())
@@ -56,7 +56,7 @@ public class IntakeCommands{
         intakeSolenoid.set(DoubleSolenoid.Value.kOff);      
     }
 
-    public static void stopIntakeMotor(){
+    public void stopIntakeMotor(){
         intakeMotor.set(ControlMode.PercentOutput, 0);
     }
 }

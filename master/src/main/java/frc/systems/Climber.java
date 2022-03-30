@@ -57,7 +57,6 @@ public class Climber {
                 if (latchTimer.isExpired()) {
                     climberLatchSolenoid.set(Value.kReverse);
                     isLatchExtended = false;
-
                     latchTimer.setTimer(0.5);
                 }
 
