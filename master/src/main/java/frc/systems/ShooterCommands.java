@@ -24,6 +24,8 @@ public class ShooterCommands {
 
     public static SoftwareTimer shootDelay;
 
+    public static SoftwareTimer shootLowDelay;
+
     public static double highShooterPower = -0.80;// high power can range from 0.9 to 1.0 at a full battery
 
     private SparkMaxPIDController pidController;
@@ -35,7 +37,7 @@ public class ShooterCommands {
 
     public ShooterCommands() {
 
-        //motor initialization
+        // motor initialization
         upperMotor = new VictorSPX(RoboRioPorts.CAN_SHOOT_UPPER);
         lowerMotor = new VictorSPX(RoboRioPorts.CAN_SHOOT_LOWER);
         shooterMotor = new CANSparkMax(RoboRioPorts.CAN_SHOOTER, MotorType.kBrushless);
@@ -43,21 +45,21 @@ public class ShooterCommands {
         pidController = shooterMotor.getPIDController();
         encoder = shooterMotor.getEncoder();
 
-        //PID Coefficients
-        kP = 6e-5; 
+        // PID Coefficients
+        kP = 6e-5;
         kI = 0;
-        kD = 0; 
-        kIz = 0; 
-        kFF = 0.000015; 
-        kMaxOutput = 1; 
+        kD = 0;
+        kIz = 0;
+        kFF = 0.000015;
+        kMaxOutput = 1;
         kMinOutput = -1;
         maxRPM = 5700;
 
     }
 
-    public void setPID(){
+    public void setPID() {
 
-        //set PID coefficients
+        // set PID coefficients
         pidController.setP(kP);
         pidController.setI(kI);
         pidController.setD(kD);
@@ -66,7 +68,7 @@ public class ShooterCommands {
         pidController.setOutputRange(kMinOutput, kMaxOutput);
     }
 
-    public void displayPID(){
+    public void displayPID() {
 
         // display PID coefficients on SmartDashboard
 
@@ -79,7 +81,7 @@ public class ShooterCommands {
         SmartDashboard.putNumber("Min Output", kMinOutput);
     }
 
-    public void runPID(){
+    public void runPID() {
 
         // read PID coefficients from SmartDashboard
         double p = SmartDashboard.getNumber("P Gain", 0);
@@ -90,31 +92,48 @@ public class ShooterCommands {
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
 
-        // if PID coefficients on SmartDashboard have changed, write new values to controller
+        // if PID coefficients on SmartDashboard have changed, write new values to
+        // controller
 
-        if((p != kP)) { pidController.setP(p); kP = p; }
-        if((i != kI)) { pidController.setI(i); kI = i; }
-        if((d != kD)) { pidController.setD(d); kD = d; }
-        if((iz != kIz)) { pidController.setIZone(iz); kIz = iz; }
-        if((ff != kFF)) { pidController.setFF(ff); kFF = ff; }
-        if((max != kMaxOutput) || (min != kMinOutput)) { 
-            pidController.setOutputRange(min, max); 
-            kMinOutput = min; kMaxOutput = max; 
+        if ((p != kP)) {
+            pidController.setP(p);
+            kP = p;
+        }
+        if ((i != kI)) {
+            pidController.setI(i);
+            kI = i;
+        }
+        if ((d != kD)) {
+            pidController.setD(d);
+            kD = d;
+        }
+        if ((iz != kIz)) {
+            pidController.setIZone(iz);
+            kIz = iz;
+        }
+        if ((ff != kFF)) {
+            pidController.setFF(ff);
+            kFF = ff;
+        }
+        if ((max != kMaxOutput) || (min != kMinOutput)) {
+            pidController.setOutputRange(min, max);
+            kMinOutput = min;
+            kMaxOutput = max;
         }
 
-        double setPoint = highShooterPower*maxRPM;
+        double setPoint = highShooterPower * maxRPM;
         pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-        
+
         SmartDashboard.putNumber("SetPoint", setPoint);
         SmartDashboard.putNumber("ProcessVariable", encoder.getVelocity());
     }
 
-    public void feedIndexer(){
+    public void feedIndexer() {
 
         /**
-         * This method uses the upper and lower limit switches on the indexer 
-         * to feed the balls into the indexer. It runs/stops the feeder motors 
-         * depending on the position of balls on the limit switches. 
+         * This method uses the upper and lower limit switches on the indexer
+         * to feed the balls into the indexer. It runs/stops the feeder motors
+         * depending on the position of balls on the limit switches.
          * (See LimitSwitch.java for more info on how the limit switches work).
          */
 
@@ -144,37 +163,116 @@ public class ShooterCommands {
                 upperMotor.set(ControlMode.PercentOutput, 0);
                 lowerMotor.set(ControlMode.PercentOutput, 0);
             }
-        } 
-    }//end feedIndexer()
+        }
+    }// end feedIndexer()
 
-    public void shootHigh(){
+    public void shootHigh() {
 
-    /**
-     * Sends high power to the shooter action. Delays allow time 
-     * for the shooter motor to increase its velocity before feeding
-     * the next ball.
-     */
+        /**
+         * Sends high power to the shooter action. Delays allow time
+         * for the shooter motor to increase its velocity before feeding
+         * the next ball.
+         */
 
-        shooterMotor.set(highShooterPower);
-        Timer.delay(.75);
-        upperMotor.set(ControlMode.PercentOutput, feederPower);
-        lowerMotor.set(ControlMode.PercentOutput, feederPower);
-        Timer.delay(.75);
-        upperMotor.set(ControlMode.PercentOutput, 0);
-        lowerMotor.set(ControlMode.PercentOutput, 0);
-        Timer.delay(.75);
-        upperMotor.set(ControlMode.PercentOutput, feederPower);
-        lowerMotor.set(ControlMode.PercentOutput, feederPower);
+        int iStep = 0;
+        SoftwareTimer shootTimer = new SoftwareTimer();
 
-    }//end shootHigh()
+        switch (iStep) {
+            case 0:
+                // IDLE - do nothing
+                break;
+            case 1:
+                shooterMotor.set(highShooterPower);
+                shootTimer.setTimer(0.75);
+                iStep++;
+                break;
+            case 2:
+                if (shootTimer.isExpired()) {
+                    iStep++;
+                }
+                break;
+            case 3:
+                upperMotor.set(ControlMode.PercentOutput, feederPower);
+                lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                shootTimer.setTimer(0.75);
+                iStep++;
+                break;
+            case 4:
+                if (shootTimer.isExpired()) {
+                    iStep++;
+                }
+                break;
+            case 5:
+                upperMotor.set(ControlMode.PercentOutput, 0);
+                lowerMotor.set(ControlMode.PercentOutput, 0);
+                shootTimer.setTimer(0.75);
+                iStep++;
+                break;
+            case 6:
+                if (shootTimer.isExpired()) {
+                    iStep++;
+                }
+                break;
+            case 7:
+                upperMotor.set(ControlMode.PercentOutput, feederPower);
+                lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                iStep = 0;
+        }
 
-    public void shootLow(){
+    }// end shootHigh()
 
-    /**
-     * Sends low power to the shooter action. There are no delays 
-     * becasue low goal needs less power and doesn't need a delay after 
-     * the first shot to spin up the shooter motor.
-     */
+    public void shootLow() {
+
+        /**
+         * Sends low power to the shooter action. There are no delays
+         * becasue low goal needs less power and doesn't need a delay after
+         * the first shot to spin up the shooter motor.
+         */
+
+        int iStep = 0;
+        shootLowDelay = new SoftwareTimer();
+
+        switch (iStep) {
+            case 0:
+                // IDLE - do nothing
+                break;
+            case 1:
+                shooterMotor.set(lowShooterPower);
+                shootLowDelay.setTimer(0.75);
+                iStep++;
+                break;
+            case 2:
+                if (shootLowDelay.isExpired()) {
+                    iStep++;
+                }
+                break;
+            case 3:
+                upperMotor.set(ControlMode.PercentOutput, feederPower);
+                lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                shootLowDelay.setTimer(0.75);
+                iStep++;
+                break;
+            case 4:
+                if (shootLowDelay.isExpired()) {
+                    iStep++;
+                }
+                break;
+            case 5:
+                upperMotor.set(ControlMode.PercentOutput, 0);
+                lowerMotor.set(ControlMode.PercentOutput, 0);
+                shootLowDelay.setTimer(0.75);
+                iStep++;
+                break;
+            case 6:
+                if (shootLowDelay.isExpired()) {
+                    iStep++;
+                }
+                break;
+            case 7:
+                upperMotor.set(ControlMode.PercentOutput, feederPower);
+                lowerMotor.set(ControlMode.PercentOutput, feederPower);
+                iStep = 0;
+        }
 
         shooterMotor.set(lowShooterPower);
         Timer.delay(0.75);
@@ -187,16 +285,16 @@ public class ShooterCommands {
         upperMotor.set(ControlMode.PercentOutput, feederPower);
         lowerMotor.set(ControlMode.PercentOutput, feederPower);
 
-    }//end shootLow()
-    
-    public void motorStop(){
+    }// end shootLow()
 
-        /**Method that stops all the motors in the shooter assembly **/
+    public void motorStop() {
+
+        /** Method that stops all the motors in the shooter assembly **/
 
         upperMotor.set(ControlMode.PercentOutput, 0);
         lowerMotor.set(ControlMode.PercentOutput, 0);
         shooterMotor.set(0);
 
-    }//end motorStop()
+    }// end motorStop()
 
-}//end class
+}// end class

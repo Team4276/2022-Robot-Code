@@ -24,7 +24,8 @@ public class ControlShooter extends ShooterCommands{
 
             //shooter action (high and low depending on if the hood is up or down )
             if (Robot.xboxController.getRawAxis(Xbox.RT) > 0.1) {
-                if (HoodActuator.hoodState == HoodState.UP)
+                if (HoodActuator.
+                hoodState == HoodState.UP)
                 super.shootHigh();
                 else if (HoodActuator.hoodState == HoodState.DOWN)
                 super.shootLow();
