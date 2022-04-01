@@ -18,6 +18,8 @@ public class ControlShooter extends ShooterCommands {
 
         if (!Robot.isAutoMode) {
 
+            boolean isShooterStarted = false;
+
             // load shooter action
             if (Robot.xboxController.getRawAxis(Xbox.LT) > 0.1) {
                 super.feedIndexer();
@@ -25,10 +27,14 @@ public class ControlShooter extends ShooterCommands {
 
             // shooter action (high and low depending on if the hood is up or down )
             if (Robot.xboxController.getRawAxis(Xbox.RT) > 0.1) {
-                if (HoodActuator.hoodState == HoodState.UP)
-                    super.shootHigh();
-                else if (HoodActuator.hoodState == HoodState.DOWN)
-                    super.shootLow();
+                if (!isShooterStarted) {
+                    isShooterStarted = true;
+                    startShooter();
+                } else {
+                    runBaseShooter(HoodActuator.hoodState == HoodState.DOWN);
+                }
+            } else {
+                isShooterStarted = false;
             }
 
             // stop motor action

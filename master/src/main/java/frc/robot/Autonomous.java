@@ -1,7 +1,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Timer;
+import frc.utilities.SoftwareTimer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Autonomous extends Thread {
@@ -32,6 +32,8 @@ public class Autonomous extends Thread {
     public boolean breakLoop = false;
     public static int selectionMode = COMMIT_MODE;
 
+    private static SoftwareTimer buttonDelay;
+
     public Autonomous() {
         selectionModeArray[COMMIT_MODE] = "Commit mode";
         selectionModeArray[EDIT_MODE] = "Edit mode";
@@ -41,6 +43,8 @@ public class Autonomous extends Thread {
         startPositionArray[CENTER] = "center";
         startPositionArray[RIGHT] = "right";
 
+        buttonDelay = new SoftwareTimer();
+
         SmartDashboard.putString("Selection mode", "COMMIT_MODE");
         // experimental
 
@@ -48,16 +52,18 @@ public class Autonomous extends Thread {
 
     public static void autonomousSelector() {
 
-        if (Robot.leftJoystick.getRawButton(7) && (selectionMode == COMMIT_MODE)) {
-            selectionMode = EDIT_MODE;
-            SmartDashboard.putBoolean("Edit Mode?", true);
-            SmartDashboard.putString("Selection mode", selectionModeArray[selectionMode]);
-            Timer.delay(.5);
-        } else if ((Robot.leftJoystick.getRawButton(7)) && (selectionMode == EDIT_MODE)) {
-            selectionMode = COMMIT_MODE;
-            SmartDashboard.putBoolean("Edit Mode?", false);
-            SmartDashboard.putString("Selection mode", selectionModeArray[selectionMode]);
-            Timer.delay(.5);
+        if (buttonDelay.isExpired()) {
+            if (Robot.leftJoystick.getRawButton(7) && (selectionMode == COMMIT_MODE)) {
+                selectionMode = EDIT_MODE;
+                SmartDashboard.putBoolean("Edit Mode?", true);
+                SmartDashboard.putString("Selection mode", selectionModeArray[selectionMode]);
+                buttonDelay.setTimer(0.5);
+            } else if ((Robot.leftJoystick.getRawButton(7)) && (selectionMode == EDIT_MODE)) {
+                selectionMode = COMMIT_MODE;
+                SmartDashboard.putBoolean("Edit Mode?", false);
+                SmartDashboard.putString("Selection mode", selectionModeArray[selectionMode]);
+                buttonDelay.setTimer(0.5);
+            }
         }
         if ((Robot.leftJoystick.getRawButton(8)) && (selectionMode == EDIT_MODE)) {
             startingPosition = LEFT;
@@ -89,28 +95,6 @@ public class Autonomous extends Thread {
             SmartDashboard.putBoolean("red team", true);
             SmartDashboard.putString("Team", teamSelectionArray[team]);
         }
-        // } else if (Robot.logitechJoystickL.getRawButton(11)) {
-        // startingPosition = RIGHT;
-
-        // if (Robot.logitechJoystickL.getRawButton(8)) {
-        // } else if (Robot.logitechJoystickL.getRawButton(10)) {
-        // }
-
-        // SmartDashboard.putString("Team", teamSelectionArray[team]);
-        // SmartDashboard.putString("Selection mode",
-        // selectionModeArray[selectionMode]);
-        // SmartDashboard.putString("Starting Position",
-        // startPositionArray[startingPosition]);
-        // SmartDashboard.putBoolean("AutoSelector Error", false);
-        Timer.delay(0.1);
-
-        // }
-        // } catch (Exception autoSelectorError) {
-        // SmartDashboard.putBoolean("AutoSelector Error", true);
-        // SmartDashboard.putString("Auto ERROR", autoSelectorError.getMessage());
-        // }
-        // }
-
     }
 
     public int getSelectionMode() {

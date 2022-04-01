@@ -70,12 +70,8 @@ public class Climber {
             }
             SmartDashboard.putBoolean("PINS", isLatchExtended);
         } else {
-            try {
-                climberLatchSolenoid.set(Value.kOff);
-            } catch (Exception e) {
-            }
+            climberLatchSolenoid.set(Value.kOff);
         }
-
     }
 
 }

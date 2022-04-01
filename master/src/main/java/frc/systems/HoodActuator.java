@@ -1,9 +1,8 @@
 package frc.systems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Robot;
 import frc.utilities.SoftwareTimer;
 import frc.utilities.Xbox;
@@ -22,6 +21,7 @@ public class HoodActuator {
 
     public HoodActuator() {
         hoodSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+        xboxDelayTimer = new SoftwareTimer();
     }
 
     public void runHoodActuator() {

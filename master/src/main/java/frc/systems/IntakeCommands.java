@@ -41,7 +41,6 @@ public class IntakeCommands {
     }
 
     public void lowerIntake() {
-
         if (isIntakeRetracted) {
             if (intakeTimer.isExpired())
                 intakeSolenoid.set(DoubleSolenoid.Value.kOff);

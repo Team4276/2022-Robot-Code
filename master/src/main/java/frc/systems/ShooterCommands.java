@@ -3,18 +3,17 @@ package frc.systems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.utilities.LimitSwitch;
-import frc.utilities.SoftwareTimer;
-import frc.utilities.Xbox;
 import frc.utilities.LimitSwitch.BallState;
 import frc.utilities.RoboRioPorts;
+import frc.utilities.SoftwareTimer;
+import frc.utilities.Xbox;
 
 public class ShooterCommands {
 
@@ -31,6 +30,8 @@ public class ShooterCommands {
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+
+    private int stepShooter = 0;
 
     public static double feederPower = 0.9;
     public double lowShooterPower = -0.4;
@@ -166,7 +167,11 @@ public class ShooterCommands {
         }
     }// end feedIndexer()
 
-    public void shootHigh() {
+    public void startShooter() {
+        stepShooter = 1;
+    }
+
+    public void runBaseShooter(boolean isHighShot) {
 
         /**
          * Sends high power to the shooter action. Delays allow time
@@ -174,118 +179,55 @@ public class ShooterCommands {
          * the next ball.
          */
 
-        int iStep = 0;
         SoftwareTimer shootTimer = new SoftwareTimer();
 
-        switch (iStep) {
+        switch (stepShooter) {
             case 0:
                 // IDLE - do nothing
                 break;
             case 1:
-                shooterMotor.set(highShooterPower);
+                if (isHighShot) {
+                    shooterMotor.set(highShooterPower);
+                } else {
+                    shooterMotor.set(lowShooterPower);
+                }
                 shootTimer.setTimer(0.75);
-                iStep++;
+                stepShooter++;
                 break;
             case 2:
                 if (shootTimer.isExpired()) {
-                    iStep++;
+                    stepShooter++;
                 }
                 break;
             case 3:
                 upperMotor.set(ControlMode.PercentOutput, feederPower);
                 lowerMotor.set(ControlMode.PercentOutput, feederPower);
                 shootTimer.setTimer(0.75);
-                iStep++;
+                stepShooter++;
                 break;
             case 4:
                 if (shootTimer.isExpired()) {
-                    iStep++;
+                    stepShooter++;
                 }
                 break;
             case 5:
                 upperMotor.set(ControlMode.PercentOutput, 0);
                 lowerMotor.set(ControlMode.PercentOutput, 0);
                 shootTimer.setTimer(0.75);
-                iStep++;
+                stepShooter++;
                 break;
             case 6:
                 if (shootTimer.isExpired()) {
-                    iStep++;
+                    stepShooter++;
                 }
                 break;
             case 7:
                 upperMotor.set(ControlMode.PercentOutput, feederPower);
                 lowerMotor.set(ControlMode.PercentOutput, feederPower);
-                iStep = 0;
+                stepShooter = 0;
         }
 
     }// end shootHigh()
-
-    public void shootLow() {
-
-        /**
-         * Sends low power to the shooter action. There are no delays
-         * becasue low goal needs less power and doesn't need a delay after
-         * the first shot to spin up the shooter motor.
-         */
-
-        int iStep = 0;
-        shootLowDelay = new SoftwareTimer();
-
-        switch (iStep) {
-            case 0:
-                // IDLE - do nothing
-                break;
-            case 1:
-                shooterMotor.set(lowShooterPower);
-                shootLowDelay.setTimer(0.75);
-                iStep++;
-                break;
-            case 2:
-                if (shootLowDelay.isExpired()) {
-                    iStep++;
-                }
-                break;
-            case 3:
-                upperMotor.set(ControlMode.PercentOutput, feederPower);
-                lowerMotor.set(ControlMode.PercentOutput, feederPower);
-                shootLowDelay.setTimer(0.75);
-                iStep++;
-                break;
-            case 4:
-                if (shootLowDelay.isExpired()) {
-                    iStep++;
-                }
-                break;
-            case 5:
-                upperMotor.set(ControlMode.PercentOutput, 0);
-                lowerMotor.set(ControlMode.PercentOutput, 0);
-                shootLowDelay.setTimer(0.75);
-                iStep++;
-                break;
-            case 6:
-                if (shootLowDelay.isExpired()) {
-                    iStep++;
-                }
-                break;
-            case 7:
-                upperMotor.set(ControlMode.PercentOutput, feederPower);
-                lowerMotor.set(ControlMode.PercentOutput, feederPower);
-                iStep = 0;
-        }
-
-        shooterMotor.set(lowShooterPower);
-        Timer.delay(0.75);
-        upperMotor.set(ControlMode.PercentOutput, feederPower);
-        lowerMotor.set(ControlMode.PercentOutput, feederPower);
-        Timer.delay(.75);
-        upperMotor.set(ControlMode.PercentOutput, 0);
-        lowerMotor.set(ControlMode.PercentOutput, 0);
-        Timer.delay(.05);
-        upperMotor.set(ControlMode.PercentOutput, feederPower);
-        lowerMotor.set(ControlMode.PercentOutput, feederPower);
-
-    }// end shootLow()
 
     public void motorStop() {
 

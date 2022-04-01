@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -40,8 +39,6 @@ public class Robot extends TimedRobot {
 
   Notifier driveRateGroup;
   public static Drivetrain mDrivetrain;
-
-  public static Timer systemTimer;
 
   public Autonomous myAutonomous;
 
