@@ -31,10 +31,10 @@ public class ShooterCommands {
     private RelativeEncoder encoder;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
-    private int stepShooter = 0;
+    public static int stepShooter = 0;
 
     public static double feederPower = 0.9;
-    public double lowShooterPower = -0.4;
+    public static double lowShooterPower = -0.4;
 
     public ShooterCommands() {
 
@@ -129,7 +129,7 @@ public class ShooterCommands {
         SmartDashboard.putNumber("ProcessVariable", encoder.getVelocity());
     }
 
-    public void feedIndexer() {
+    public static void feedIndexer() {
 
         /**
          * This method uses the upper and lower limit switches on the indexer
@@ -167,11 +167,11 @@ public class ShooterCommands {
         }
     }// end feedIndexer()
 
-    public void startShooter() {
+    public static void startShooter() {
         stepShooter = 1;
     }
 
-    public void runBaseShooter(boolean isHighShot) {
+    public static void runBaseShooter(boolean isLowGoal) {
 
         /**
          * Sends high power to the shooter action. Delays allow time
@@ -186,10 +186,10 @@ public class ShooterCommands {
                 // IDLE - do nothing
                 break;
             case 1:
-                if (isHighShot) {
-                    shooterMotor.set(highShooterPower);
-                } else {
+                if (isLowGoal) {
                     shooterMotor.set(lowShooterPower);
+                } else {
+                    shooterMotor.set(highShooterPower);
                 }
                 shootTimer.setTimer(0.75);
                 stepShooter++;
@@ -229,7 +229,7 @@ public class ShooterCommands {
 
     }// end shootHigh()
 
-    public void motorStop() {
+    public static void motorStop() {
 
         /** Method that stops all the motors in the shooter assembly **/
 

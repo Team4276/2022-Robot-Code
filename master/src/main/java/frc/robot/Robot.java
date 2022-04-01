@@ -60,6 +60,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     CameraServer.startAutomaticCapture();
 
+
+
     // Creates objects for the controlers
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
@@ -96,6 +98,8 @@ public class Robot extends TimedRobot {
 
     // hood actuator init
     hoodActuator = new HoodActuator();
+
+    shooterControler.startShooter();
 
   }
 

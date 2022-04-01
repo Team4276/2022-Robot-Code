@@ -11,18 +11,19 @@ public class ControlShooter extends ShooterCommands {
 
     /** See super for details on shooter commands **/
 
+    static boolean isShooterStarted = false;
+
     public ControlShooter() {
     }
 
-    public void runShooter() {
+    public static void runShooter() {
 
         if (!Robot.isAutoMode) {
 
-            boolean isShooterStarted = false;
-
+            
             // load shooter action
             if (Robot.xboxController.getRawAxis(Xbox.LT) > 0.1) {
-                super.feedIndexer();
+                feedIndexer();
             }
 
             // shooter action (high and low depending on if the hood is up or down )
@@ -39,7 +40,7 @@ public class ControlShooter extends ShooterCommands {
 
             // stop motor action
             if (Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
-                super.motorStop();
+                motorStop();
             }
         }
 
