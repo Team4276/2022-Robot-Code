@@ -17,8 +17,8 @@ public class RoboRioPorts {
 	public static final int CAN_DRIVE_L2 = 11;
 	public static final int CAN_DRIVE_L3 = 16;
 
-	//CAN ports for shooter controL
-	
+	// CAN ports for shooter controL
+
 	public static final int CAN_SHOOT_UPPER = 13;
 	public static final int CAN_SHOOT_LOWER = 2;
 	public static final int CAN_SHOOTER = 4;
@@ -26,8 +26,8 @@ public class RoboRioPorts {
 	public static final int CAN_RIGHT_CLIMB = 30;
 	public static final int CAN_LEFT_CLIMB = 15;
 
-	public static final int CAN_INTAKE = 3; 
-	
+	public static final int CAN_INTAKE = 3;
+
 	// *** PNUEMATICS ***
 	public static final int DRIVE_DOUBLE_SOLENOID_FWD = 4;
 	public static final int DRIVE_DOUBLE_SOLENOID_REV = 5;
@@ -54,6 +54,6 @@ public class RoboRioPorts {
 	public static final int DIO_LINE_SENSOR_R = 9;
 	public static final int DIO_LINE_SENSOR_L = 8;
 
-	public static final int DIO_R_CLIMB_SWITCH = 11; 
-	public static final int DIO_L_CLIMB_SWITCH = 12; 
+	public static final int DIO_R_CLIMB_SWITCH = 11;
+	public static final int DIO_L_CLIMB_SWITCH = 12;
 }

@@ -7,34 +7,34 @@ import frc.utilities.LimitSwitch;
 import frc.utilities.LimitSwitch.BallState;
 import frc.utilities.Xbox;
 
-public class ControlShooter extends ShooterCommands{
+public class ControlShooter extends ShooterCommands {
 
     /** See super for details on shooter commands **/
 
-    public ControlShooter() {}
+    public ControlShooter() {
+    }
 
     public void runShooter() {
-  
+
         if (!Robot.isAutoMode) {
 
             // load shooter action
             if (Robot.xboxController.getRawAxis(Xbox.LT) > 0.1) {
-               super.feedIndexer();
-            } 
+                super.feedIndexer();
+            }
 
-            //shooter action (high and low depending on if the hood is up or down )
+            // shooter action (high and low depending on if the hood is up or down )
             if (Robot.xboxController.getRawAxis(Xbox.RT) > 0.1) {
-                if (HoodActuator.
-                hoodState == HoodState.UP)
-                super.shootHigh();
+                if (HoodActuator.hoodState == HoodState.UP)
+                    super.shootHigh();
                 else if (HoodActuator.hoodState == HoodState.DOWN)
-                super.shootLow();
-            } 
-                
-            //stop motor action
+                    super.shootLow();
+            }
+
+            // stop motor action
             if (Robot.xboxController.getRawAxis(Xbox.LT) == 0 && Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
                 super.motorStop();
-            } 
+            }
         }
 
         // Smart Dashboard outputs
@@ -52,13 +52,13 @@ public class ControlShooter extends ShooterCommands{
 
     }// end runShooter()
 
-    public void runPIDControl(){
-        //TODO: remember to setPID init
+    public void runPIDControl() {
+        // TODO: remember to setPID init
         super.displayPID();
 
         if (Robot.xboxController.getRawAxis(Xbox.LT) > 0.1) {
             super.runPID();
-        } 
+        }
     }
 
 }// end class

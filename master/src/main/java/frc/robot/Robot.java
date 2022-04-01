@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
   public static Timer systemTimer;
 
   public Autonomous myAutonomous;
-  
+
   public static LimitSwitch lowerLimitSwitch;
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 
   private Boolean prevAutoClimbButtonState = false;
 
-  public static  Boolean isAutoMode = false;
+  public static Boolean isAutoMode = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
     // Creates objects for the controlers
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
-    xboxController = new XboxController(2);    
+    xboxController = new XboxController(2);
 
     // limit switch initialization
     lowerLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_LOWER_SWITCH);
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
 
     // shooter motor initialization
     shooterControler = new ControlShooter();
- 
+
     // drive train initialization
     mDrivetrain = new Drivetrain(true, RoboRioPorts.CAN_DRIVE_L1, RoboRioPorts.CAN_DRIVE_L2, RoboRioPorts.CAN_DRIVE_L3,
         RoboRioPorts.CAN_DRIVE_R1, RoboRioPorts.CAN_DRIVE_R2, RoboRioPorts.CAN_DRIVE_R3,
@@ -90,20 +90,20 @@ public class Robot extends TimedRobot {
     driveRateGroup.startPeriodic(0.05);
     // shooterControler.shooterInit();
 
-    //climber initialization
-    climber=new Climber();
+    // climber initialization
+    climber = new Climber();
 
-    //autonomous init
+    // autonomous init
     myAutonomous = new Autonomous();
     myAutonomous.start();
 
-    //hood actuator init
+    // hood actuator init
     hoodActuator = new HoodActuator();
 
   }
 
   public Boolean IsAutoClimbButtonPushed() {
-    //return myDebouncer.calculate(leftJoystick.getRawButton(LogJoystick.B12));
+    // return myDebouncer.calculate(leftJoystick.getRawButton(LogJoystick.B12));
     return leftJoystick.getRawButton(LogJoystick.B12);
   }
 
@@ -128,18 +128,17 @@ public class Robot extends TimedRobot {
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
-    intake.runIntake(); 
-       
+    intake.runIntake();
+
     hoodActuator.runHoodActuator();
 
-
-    //myAutoRunner.DoCurrentTask();
+    // myAutoRunner.DoCurrentTask();
   }
 
   @Override
   public void autonomousInit() {
-    
-  isAutoMode = true;
+
+    isAutoMode = true;
 
     myAutoCode = new AutoCode();
 
@@ -165,7 +164,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     climber.runClimb();
 
-    //myAutoRunner.DoCurrentTask();
+    // myAutoRunner.DoCurrentTask();
   }
 
   /** This function is called once when the robot is disabled. */

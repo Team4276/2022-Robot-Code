@@ -22,7 +22,7 @@ public class AutoCode {
   public ADXRS450_Gyro robGyro;
   public static SoftwareTimer forwardTimer;
 
-  public AutoCode(){
+  public AutoCode() {
     autoShootTimer = new SoftwareTimer();
     shooterDelay = new SoftwareTimer();
     reverseDelay = new SoftwareTimer();
@@ -37,77 +37,74 @@ public class AutoCode {
     robGyro.calibrate();
   }
 
-  public void runAuto(){
-    
+  public void runAuto() {
+
     if (!autoShootTimer.isExpired()) {
-        ControlShooter.shooterMotor.set(ControlShooter.highShooterPower);
-        if (shooterDelay.isExpired()) {
-            ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
-            ControlShooter.lowerMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
-        }
+      ControlShooter.shooterMotor.set(ControlShooter.highShooterPower);
+      if (shooterDelay.isExpired()) {
+        ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
+        ControlShooter.lowerMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
+      }
     }
-      
-    else if (!isShootTaskFinished){
+
+    else if (!isShootTaskFinished) {
 
       ControlShooter.upperMotor.set(ControlMode.PercentOutput, 0);
       ControlShooter.lowerMotor.set(ControlMode.PercentOutput, 0);
       ControlShooter.shooterMotor.set(0);
       Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
-      if(reverseDelay.isExpired()){
+      if (reverseDelay.isExpired()) {
         Robot.mDrivetrain.assignMotorPower(0, 0);
         isShootTaskFinished = true;
       }
-    }
-    else if(!isTurnAroundFinished) {
+    } else if (!isTurnAroundFinished) {
       Robot.mDrivetrain.assignMotorPower(-0.4, -0.4);
-      if (robGyro.getAngle() == 180.0){
+      if (robGyro.getAngle() == 180.0) {
         Robot.mDrivetrain.assignMotorPower(0, 0);
       }
 
       if (!forwardTimer.isExpired())
-      Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
+        Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
       else
-      Robot.mDrivetrain.assignMotorPower(0, 0);
+        Robot.mDrivetrain.assignMotorPower(0, 0);
 
-
-      if (!intakeTimer.isExpired()){
+      if (!intakeTimer.isExpired()) {
         Robot.intake.intakeBalls();
         Robot.intake.lowerIntake();
-      }
-      else {
+      } else {
         Robot.intake.stopIntakeMotor();
         Robot.intake.raiseIntake();
         Robot.mDrivetrain.assignMotorPower(-0.4, -0.4);
-        if (robGyro.getAngle() == 180.0);
+        if (robGyro.getAngle() == 180.0)
+          ;
         Robot.mDrivetrain.assignMotorPower(0, 0);
       }
 
-      if(!forwardTimer2.isExpired())
-      Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
+      if (!forwardTimer2.isExpired())
+        Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
       else
-      Robot.mDrivetrain.assignMotorPower(0, 0);
+        Robot.mDrivetrain.assignMotorPower(0, 0);
 
       if (!autoShootTimer2.isExpired()) {
         ControlShooter.shooterMotor.set(ControlShooter.highShooterPower);
         if (shooterDelay.isExpired()) {
-            ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
-            ControlShooter.lowerMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
+          ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
+          ControlShooter.lowerMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
         }
-    }
-      
-    else if (!isShootTaskFinished){
-
-      ControlShooter.upperMotor.set(ControlMode.PercentOutput, 0);
-      ControlShooter.lowerMotor.set(ControlMode.PercentOutput, 0);
-      ControlShooter.shooterMotor.set(0);
-      Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
-      if(reverseDelay.isExpired()){
-        Robot.mDrivetrain.assignMotorPower(0, 0);
-        isShootTaskFinished = true;
       }
+
+      else if (!isShootTaskFinished) {
+
+        ControlShooter.upperMotor.set(ControlMode.PercentOutput, 0);
+        ControlShooter.lowerMotor.set(ControlMode.PercentOutput, 0);
+        ControlShooter.shooterMotor.set(0);
+        Robot.mDrivetrain.assignMotorPower(0.4, -0.4);
+        if (reverseDelay.isExpired()) {
+          Robot.mDrivetrain.assignMotorPower(0, 0);
+          isShootTaskFinished = true;
+        }
+      }
+
     }
-      
-    
-    }       
-  }  
+  }
 }

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.utilities.RoboRioPorts;
 import frc.utilities.SoftwareTimer;
 
-public class IntakeCommands{
+public class IntakeCommands {
 
     private static VictorSPX intakeMotor;
 
@@ -20,43 +20,43 @@ public class IntakeCommands{
 
     private static SoftwareTimer intakeTimer;
 
-    public IntakeCommands(){
+    public IntakeCommands() {
         intakeMotor = new VictorSPX(RoboRioPorts.CAN_INTAKE);
-        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RoboRioPorts.INTAKE_SOLENOID1, RoboRioPorts.INTAKE_SOLENOID2);
-        intakeTimer = new SoftwareTimer();  
+        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RoboRioPorts.INTAKE_SOLENOID1,
+                RoboRioPorts.INTAKE_SOLENOID2);
+        intakeTimer = new SoftwareTimer();
     }
 
-    public void intakeBalls(){
+    public void intakeBalls() {
         intakeMotor.set(ControlMode.PercentOutput, -intakeMotorPower);
     }
 
-    public static void outtakeBalls(){
+    public static void outtakeBalls() {
         intakeMotor.set(ControlMode.PercentOutput, intakeMotorPower);
     }
 
-    public void raiseIntake(){
+    public void raiseIntake() {
         intakeSolenoid.set(DoubleSolenoid.Value.kForward);
         isIntakeRetracted = false;
     }
 
-    public void lowerIntake(){
-                    
-        if (isIntakeRetracted){
-            if(intakeTimer.isExpired())
-            intakeSolenoid.set(DoubleSolenoid.Value.kOff);  
-        }
-        else{
+    public void lowerIntake() {
+
+        if (isIntakeRetracted) {
+            if (intakeTimer.isExpired())
+                intakeSolenoid.set(DoubleSolenoid.Value.kOff);
+        } else {
             intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
             isIntakeRetracted = true;
             intakeTimer.setTimer(1.0);
         }
     }
 
-    public static void stopIntakeSolenoid(){
-        intakeSolenoid.set(DoubleSolenoid.Value.kOff);      
+    public static void stopIntakeSolenoid() {
+        intakeSolenoid.set(DoubleSolenoid.Value.kOff);
     }
 
-    public void stopIntakeMotor(){
+    public void stopIntakeMotor() {
         intakeMotor.set(ControlMode.PercentOutput, 0);
     }
 }
