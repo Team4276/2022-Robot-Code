@@ -190,8 +190,10 @@ public class ShooterCommands {
                     shooterMotor.set(lowShooterPower);
                 } else {
                     shooterMotor.set(highShooterPower);
+                    shooterMotor.getEncoder().getVelocity();
+
                 }
-                shootTimer.setTimer(0.75);
+                shootTimer.setTimer(0.50);
                 stepShooter++;
                 break;
             case 2:
@@ -202,7 +204,7 @@ public class ShooterCommands {
             case 3:
                 upperMotor.set(ControlMode.PercentOutput, feederPower);
                 lowerMotor.set(ControlMode.PercentOutput, feederPower);
-                shootTimer.setTimer(0.75);
+                //shootTimer.setTimer(0.75);
                 stepShooter++;
                 break;
             case 4:
