@@ -133,9 +133,7 @@ public class Robot extends TimedRobot {
     // lineSensor.getSensorData();
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
-    intake.runIntake();
 
-    hoodActuator.runHoodActuator();
 
     // myAutoRunner.DoCurrentTask();
   }
@@ -157,6 +155,11 @@ public class Robot extends TimedRobot {
     
     // essential shooter function
     shooterControler.runShooter();
+
+    intake.runIntake();
+
+    hoodActuator.runHoodActuator();
+
   }
 
   /** This function is called once when teleop is enabled. */
@@ -172,9 +175,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     climber.runClimb();
-    
+
     // essential shooter function
     shooterControler.runShooter();
+
+    intake.runIntake();
+
+    hoodActuator.runHoodActuator();
 
   }
 

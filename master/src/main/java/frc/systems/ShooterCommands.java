@@ -36,7 +36,7 @@ public class ShooterCommands {
     public static int stepShooter = 0;
 
     public static double feederPower = 1.0;
-    public static double lowShooterPower = -0.4;
+    public static double lowShooterPower = -0.35;
 
     public ShooterCommands() {
 
@@ -196,7 +196,7 @@ public class ShooterCommands {
                     shooterMotor.set(lowShooterPower);
                     shootTimer.setTimer(0.015);
                 } else {
-                    shootTimer.setTimer(0.75);
+                    shootTimer.setTimer(1.25);
                     shooterMotor.set(highShooterPower);
                 }
                 stepShooter++;

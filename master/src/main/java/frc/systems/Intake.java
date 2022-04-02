@@ -14,29 +14,29 @@ public class Intake extends IntakeCommands {
 
         // intake balls
         if (Robot.xboxController.getRawAxis(Xbox.RAxisY) > 0.2)
-            super.intakeBalls();
+            intakeBalls();
 
         // outtake balls
         else if (Robot.xboxController.getRawAxis(Xbox.RAxisY) < -0.2)
-            super.outtakeBalls();
+            outtakeBalls();
 
         // stop mototrs
         else
-            super.stopIntakeMotor();
+            stopIntakeMotor();
 
         /* intake pnumatic control */
 
         // raise intake
         if (Robot.xboxController.getRawAxis(Xbox.LAxisY) < -0.2)
-            super.raiseIntake();
+            raiseIntake();
 
         // lower intake
         else if (Robot.xboxController.getRawAxis(Xbox.LAxisY) > -0.2)
-            super.lowerIntake();
+            lowerIntake();
 
         // dont move intake
         else
-            super.stopIntakeSolenoid();
+            stopIntakeSolenoid();
 
     }// end runIntake()
 

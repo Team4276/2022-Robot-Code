@@ -16,14 +16,14 @@ public class AutoCode {
         shooterDelay = new SoftwareTimer();
         reverseDelay = new SoftwareTimer();
         autoShootTimer.setTimer(3);
-        shooterDelay.setTimer(0.75);
+        shooterDelay.setTimer(1.25);
         reverseDelay.setTimer(5);
         isTaskFinished = false;
     }
 
     public void runAuto() {
         if (!autoShootTimer.isExpired()) {
-            ControlShooter.shooterMotor.set(ControlShooter.highShooterPower);
+            ControlShooter.shooterMotor.set(ControlShooter.lowShooterPower);
 
             if (!shooterDelay.isExpired()) {
                 ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);
