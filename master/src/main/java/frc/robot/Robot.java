@@ -128,8 +128,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    // essential shooter function
-    shooterControler.runShooter();
     upperLimitSwitch.determineCase();
     lowerLimitSwitch.determineCase();
     // lineSensor.getSensorData();
@@ -156,7 +154,9 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     myAutoCode.runAuto();
     //oneBallAuto.runOneBallAuto();
-
+    
+    // essential shooter function
+    shooterControler.runShooter();
   }
 
   /** This function is called once when teleop is enabled. */
@@ -172,8 +172,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     climber.runClimb();
+    
+    // essential shooter function
+    shooterControler.runShooter();
 
-    // myAutoRunner.DoCurrentTask();
   }
 
   /** This function is called once when the robot is disabled. */

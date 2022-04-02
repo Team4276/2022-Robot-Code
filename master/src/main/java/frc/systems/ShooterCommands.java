@@ -25,7 +25,9 @@ public class ShooterCommands {
 
     public static SoftwareTimer shootLowDelay;
 
-    public static double highShooterPower = -0.70;// high power can range from 0.9 to 1.0 at a full battery
+    private static SoftwareTimer shootTimer;
+
+    public static double highShooterPower = -0.60;// high power can range from 0.9 to 1.0 at a full battery
 
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
@@ -33,7 +35,7 @@ public class ShooterCommands {
 
     public static int stepShooter = 0;
 
-    public static double feederPower = 0.9;
+    public static double feederPower = 1.0;
     public static double lowShooterPower = -0.4;
 
     public ShooterCommands() {
@@ -45,6 +47,8 @@ public class ShooterCommands {
         shooterMotor.restoreFactoryDefaults();
         pidController = shooterMotor.getPIDController();
         encoder = shooterMotor.getEncoder();
+
+        shootTimer = new SoftwareTimer();
 
         // PID Coefficients
         kP = 6e-5;
@@ -139,19 +143,23 @@ public class ShooterCommands {
          */
 
         if (LimitSwitch.ballState == BallState.NONE) {
+            if (Robot.xboxController.getRawAxis(Xbox.RT) < 0.1) {
             // upper open; lower open
             upperMotor.set(ControlMode.PercentOutput, feederPower);
             lowerMotor.set(ControlMode.PercentOutput, feederPower);
+            }
         }
 
         else if (LimitSwitch.ballState == BallState.LOWER) {
+            if (Robot.xboxController.getRawAxis(Xbox.RT) < 0.1) {
             // upper open; lower closed
             upperMotor.set(ControlMode.PercentOutput, feederPower);
             lowerMotor.set(ControlMode.PercentOutput, feederPower);
+            }
         }
 
         else if (LimitSwitch.ballState == BallState.UPPER) {
-            if (Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
+            if (Robot.xboxController.getRawAxis(Xbox.RT) < 0.1) {
                 // upper occupied; lower open
                 upperMotor.set(ControlMode.PercentOutput, 0);
                 lowerMotor.set(ControlMode.PercentOutput, feederPower);
@@ -159,7 +167,7 @@ public class ShooterCommands {
         }
 
         else if (LimitSwitch.ballState == BallState.BOTH) {
-            if (Robot.xboxController.getRawAxis(Xbox.RT) == 0) {
+            if (Robot.xboxController.getRawAxis(Xbox.RT) < 0.1) {
                 // upper occupied; lower occupied
                 upperMotor.set(ControlMode.PercentOutput, 0);
                 lowerMotor.set(ControlMode.PercentOutput, 0);
@@ -179,8 +187,6 @@ public class ShooterCommands {
          * the next ball.
          */
 
-        SoftwareTimer shootTimer = new SoftwareTimer();
-
         switch (stepShooter) {
             case 0:
                 // IDLE - do nothing
@@ -188,12 +194,11 @@ public class ShooterCommands {
             case 1:
                 if (isLowGoal) {
                     shooterMotor.set(lowShooterPower);
+                    shootTimer.setTimer(0.015);
                 } else {
+                    shootTimer.setTimer(0.75);
                     shooterMotor.set(highShooterPower);
-                    shooterMotor.getEncoder().getVelocity();
-
                 }
-                shootTimer.setTimer(0.50);
                 stepShooter++;
                 break;
             case 2:
@@ -208,9 +213,9 @@ public class ShooterCommands {
                 stepShooter++;
                 break;
             case 4:
-                if (shootTimer.isExpired()) {
+//                if (shootTimer.isExpired()) {
                     stepShooter++;
-                }
+  //              }
                 break;
             case 5:
                 upperMotor.set(ControlMode.PercentOutput, 0);
