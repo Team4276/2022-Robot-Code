@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SoftwareTimer {
 
-	private static double expirationTime = 0;
+	private double expirationTime = 0;
 
 	public void setTimer(double timerValue) {
 		expirationTime = Timer.getFPGATimestamp() + timerValue;
@@ -17,13 +17,4 @@ public class SoftwareTimer {
 		// if robotTime exceeds expirationTime, then this returns true
 	}
 
-    public boolean softDelay(double delay){
-        setTimer(delay);
-        if (isExpired())
-        return true;
-        else
-        return false;
-        
-        //TODO: Create new method to set delay timer
-    }
 }
