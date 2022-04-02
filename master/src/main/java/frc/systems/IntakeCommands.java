@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.robot.Robot;
 import frc.utilities.RoboRioPorts;
 import frc.utilities.SoftwareTimer;
 
@@ -33,6 +34,7 @@ public class IntakeCommands {
 
     public static void outtakeBalls() {
         intakeMotor.set(ControlMode.PercentOutput, intakeMotorPower);
+        ControlShooter.lowerMotor.set(ControlMode.PercentOutput, -ControlShooter.feederPower);
     }
 
     public void raiseIntake() {
@@ -58,4 +60,5 @@ public class IntakeCommands {
     public void stopIntakeMotor() {
         intakeMotor.set(ControlMode.PercentOutput, 0);
     }
+
 }

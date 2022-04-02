@@ -27,8 +27,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 public class Drivetrain {
     private boolean hasCANNetwork = false;
 
-    private Encoder m_left_encoder;
-    private Encoder m_right_encoder;
+    public static Encoder m_left_encoder;
+    public static Encoder m_right_encoder;
 
     private final int HI_SHIFTER = 4;
     private final int LO_SHIFTER = 3;

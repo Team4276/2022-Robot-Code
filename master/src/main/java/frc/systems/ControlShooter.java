@@ -16,7 +16,7 @@ public class ControlShooter extends ShooterCommands {
     public ControlShooter() {
     }
 
-    public static void runShooter() {
+    public void runShooter() {
 
         if (!Robot.isAutoMode) {
 

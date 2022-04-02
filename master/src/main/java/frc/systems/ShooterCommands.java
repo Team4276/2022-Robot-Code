@@ -25,7 +25,7 @@ public class ShooterCommands {
 
     public static SoftwareTimer shootLowDelay;
 
-    public static double highShooterPower = -0.80;// high power can range from 0.9 to 1.0 at a full battery
+    public static double highShooterPower = -0.70;// high power can range from 0.9 to 1.0 at a full battery
 
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
@@ -167,7 +167,7 @@ public class ShooterCommands {
         }
     }// end feedIndexer()
 
-    public static void startShooter() {
+    public void startShooter() {
         stepShooter = 1;
     }
 
@@ -229,7 +229,7 @@ public class ShooterCommands {
 
     }// end shootHigh()
 
-    public static void motorStop() {
+    public void motorStop() {
 
         /** Method that stops all the motors in the shooter assembly **/
 

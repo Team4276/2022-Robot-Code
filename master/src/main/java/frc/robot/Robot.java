@@ -19,6 +19,7 @@ import frc.systems.ControlShooter;
 import frc.systems.Drivetrain;
 import frc.systems.HoodActuator;
 import frc.systems.Intake;
+import frc.systems.OneBallAuto;
 import frc.utilities.LimitSwitch;
 import frc.utilities.LogJoystick;
 import frc.utilities.RoboRioPorts;
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot {
   public static Spark mySpark;
   public static MotorController myController;
   public static AutoCode myAutoCode;
+
+  public static OneBallAuto oneBallAuto;
 
   public static HoodActuator hoodActuator;
 
@@ -101,6 +104,9 @@ public class Robot extends TimedRobot {
 
     shooterControler.startShooter();
 
+
+    oneBallAuto = new OneBallAuto();
+
   }
 
   public Boolean IsAutoClimbButtonPushed() {
@@ -149,6 +155,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     myAutoCode.runAuto();
+    //oneBallAuto.runOneBallAuto();
 
   }
 
@@ -158,6 +165,7 @@ public class Robot extends TimedRobot {
     isAutoMode = false;
     climber.climberLatchSolenoid.set(Value.kReverse);
     climber.isLatchExtended = false;
+    //climber.softwareTimer.latchTimer(0.0);
   }
 
   /** This function is called periodically during operator control. */

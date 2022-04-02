@@ -20,9 +20,9 @@ public class Climber {
 
     public DoubleSolenoid climberLatchSolenoid;
 
-    public boolean isLatchExtended;
+    public boolean isLatchExtended = false;
 
-    private SoftwareTimer latchTimer;
+    public SoftwareTimer latchTimer;
 
     public Climber() {
         leftClimbMotor = new VictorSPX(RoboRioPorts.CAN_LEFT_CLIMB);
@@ -60,7 +60,7 @@ public class Climber {
                     latchTimer.setTimer(0.5);
                 }
 
-            } else {
+            } else if (isLatchExtended == false){
                 if (latchTimer.isExpired()) {
                     climberLatchSolenoid.set(Value.kForward);
                     isLatchExtended = true;
@@ -70,8 +70,12 @@ public class Climber {
             }
             SmartDashboard.putBoolean("PINS", isLatchExtended);
         } else {
-            climberLatchSolenoid.set(Value.kOff);
+            try {
+                climberLatchSolenoid.set(Value.kOff);
+            } catch (Exception e) {
+            }
         }
+
     }
 
 }
