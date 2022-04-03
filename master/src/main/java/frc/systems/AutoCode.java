@@ -23,7 +23,7 @@ public class AutoCode {
 
     public void runAuto() {
         if (!autoShootTimer.isExpired()) {
-            ControlShooter.shooterMotor.set(ControlShooter.lowShooterPower);
+            ControlShooter.shooterMotor.set(ControlShooter.highShooterPower);
 
             if (!shooterDelay.isExpired()) {
                 ControlShooter.upperMotor.set(ControlMode.PercentOutput, ControlShooter.feederPower);

@@ -27,7 +27,7 @@ public class ShooterCommands {
 
     private static SoftwareTimer shootTimer;
 
-    public static double highShooterPower = -0.60;// high power can range from 0.9 to 1.0 at a full battery
+    public final static double highShooterPower = -0.55;// high power can range from 0.9 to 1.0 at a full battery
 
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
@@ -126,10 +126,10 @@ public class ShooterCommands {
             kMaxOutput = max;
         }
 
-        double setPoint = highShooterPower * maxRPM;
-        pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+        //double setPoint = highShooterPower * maxRPM;
+        //pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
 
-        SmartDashboard.putNumber("SetPoint", setPoint);
+        //SmartDashboard.putNumber("SetPoint", setPoint);
         SmartDashboard.putNumber("ProcessVariable", encoder.getVelocity());
     }
 

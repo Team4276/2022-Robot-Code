@@ -193,7 +193,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
-    Autonomous.autonomousSelector();
+   // Autonomous.autonomousSelector();
   }
 
   /** This function is called once when test mode is enabled. */
