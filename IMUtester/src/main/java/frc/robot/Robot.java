@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -49,6 +50,8 @@ public class Robot extends TimedRobot {
   public static LimitSwitch upperLimitSwitch;
   public static XboxController xboxController;
 
+  public static ADIS16470_IMU myImu;
+
   public static Climber climber;
 
   private Boolean prevAutoClimbButtonState = false;
@@ -69,6 +72,9 @@ public class Robot extends TimedRobot {
     leftJoystick = new Joystick(0);
     rightJoystick = new Joystick(1);
     xboxController = new XboxController(2);
+
+    myImu = new ADIS16470_IMU();
+    myImu.calibrate();
 
     // limit switch initialization
     lowerLimitSwitch = new LimitSwitch(RoboRioPorts.DIO_LOWER_SWITCH);
@@ -127,6 +133,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
+    SmartDashboard.putNumber("ADIS16470 Yaw degrees: ", myImu.getAngle());
 
     upperLimitSwitch.determineCase();
     lowerLimitSwitch.determineCase();
