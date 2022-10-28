@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
 
   public static Boolean isAutoMode = false;
 
+  public VisionTarget limelightVisionTarget;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -106,6 +108,12 @@ public class Robot extends TimedRobot {
 
 
     oneBallAuto = new OneBallAuto();
+    
+    limelightVisionTarget = new VisionTarget();
+    limelightVisionTarget.init();
+
+
+    
 
   }
 
@@ -134,7 +142,10 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("prevAutoClimbButtonState", prevAutoClimbButtonState);
 
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
+    limelightVisionTarget.update();
+    
     // myAutoRunner.DoCurrentTask();
   }
 
