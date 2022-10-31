@@ -56,7 +56,8 @@ public class Robot extends TimedRobot {
 
   public static Boolean isAutoMode = false;
 
-  public VisionTarget limelightVisionTarget;
+  public static VisionTarget limelightVisionTarget;
+  public Turret shooterTurret;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -112,9 +113,7 @@ public class Robot extends TimedRobot {
     limelightVisionTarget = new VisionTarget();
     limelightVisionTarget.init();
 
-
-    
-
+    shooterTurret = new Turret();
   }
 
   public Boolean IsAutoClimbButtonPushed() {
@@ -145,6 +144,7 @@ public class Robot extends TimedRobot {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
     limelightVisionTarget.update();
+    shooterTurret.update();
     
     // myAutoRunner.DoCurrentTask();
   }

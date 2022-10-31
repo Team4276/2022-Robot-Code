@@ -27,6 +27,8 @@ public class RoboRioPorts {
 	public static final int CAN_LEFT_CLIMB = 15;
 
 	public static final int CAN_INTAKE = 3; 
+
+	public static final int CAN_TURRET = 5; 
 	
 	// *** PNUEMATICS ***
 	public static final int DRIVE_DOUBLE_SOLENOID_FWD = 4;
