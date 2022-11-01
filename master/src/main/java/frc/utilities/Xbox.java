@@ -6,7 +6,7 @@ public class Xbox {
 	// Button mappings
 	static public int DPad = 0;
 	static public int A = 1;// engage hood actuator
-	static public int B = 2;// retract hood actuator
+	static public int B = 2;// Enable turret pointing based on Limelight
 	static public int X = 3;
 	static public int Y = 4;
 	static public int LB = 5;
