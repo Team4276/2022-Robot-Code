@@ -192,13 +192,8 @@ public class ShooterCommands {
                 // IDLE - do nothing
                 break;
             case 1:
-                if (isLowGoal) {
-                    shooterMotor.set(lowShooterPower);
-                    shootTimer.setTimer(0.015);
-                } else {
-                    shootTimer.setTimer(1.25);
-                    shooterMotor.set(highShooterPower);
-                }
+                shootTimer.setTimer(1.25);
+                shooterMotor.set(-0.9);   //highShooterPower);
                 stepShooter++;
                 break;
             case 2:

@@ -14,8 +14,8 @@ public class Turret {
     private final double SLOW_ZONE = 10.0; // degrees field-of-view. Camera frame is -27 left to +27 degrees right
     private final double DEAD_ZONE = 2.0;
 
-    private final double MAX_POWER = 0.25; // Percent moter output
-    private final double SLOW_POWER = 0.05;
+    private final double MAX_POWER = 0.45; // Percent moter output
+    private final double SLOW_POWER = 0.2;
     private final double HOLD_POSITION = 0.0;
 
     public Turret() {
