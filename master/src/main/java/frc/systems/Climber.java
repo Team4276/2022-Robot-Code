@@ -24,6 +24,8 @@ public class Climber {
 
     public SoftwareTimer latchTimer;
 
+    private int delayCount = 4;
+
     public Climber() {
         leftClimbMotor = new VictorSPX(RoboRioPorts.CAN_LEFT_CLIMB);
         rightClimbMotor = new VictorSPX(RoboRioPorts.CAN_RIGHT_CLIMB);
@@ -71,7 +73,11 @@ public class Climber {
             SmartDashboard.putBoolean("PINS", isLatchExtended);
         } else {
             try {
-                climberLatchSolenoid.set(Value.kOff);
+                delayCount--;
+                if(delayCount == 0) {
+                    delayCount = 4;
+                    climberLatchSolenoid.set(Value.kOff);
+                }
             } catch (Exception e) {
             }
         }

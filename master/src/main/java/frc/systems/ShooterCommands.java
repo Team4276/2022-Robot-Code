@@ -204,13 +204,13 @@ public class ShooterCommands {
             case 3:
                 upperMotor.set(ControlMode.PercentOutput, feederPower);
                 lowerMotor.set(ControlMode.PercentOutput, feederPower);
-                //shootTimer.setTimer(0.75);
+                shootTimer.setTimer(0.75);
                 stepShooter++;
                 break;
             case 4:
-//                if (shootTimer.isExpired()) {
+                if (shootTimer.isExpired()) {
                     stepShooter++;
-  //              }
+                }
                 break;
             case 5:
                 upperMotor.set(ControlMode.PercentOutput, 0);
