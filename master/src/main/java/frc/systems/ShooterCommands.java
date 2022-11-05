@@ -193,7 +193,7 @@ public class ShooterCommands {
                 break;
             case 1:
                 shootTimer.setTimer(1.25);
-                shooterMotor.set(-0.9);   //highShooterPower);
+                shooterMotor.set(-0.7);   //highShooterPower);
                 stepShooter++;
                 break;
             case 2:

@@ -71,4 +71,11 @@ public class VisionTarget {
         return distanceFromLimelightToGoalInches;
     }
 
+    public void setLed(Boolean isOn) {
+        if(isOn) {
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+        } else {
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+        }
+    }
 };

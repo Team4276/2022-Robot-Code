@@ -24,6 +24,7 @@ public class Turret {
 
     public void update() {
         if (Robot.xboxController.getRawButton(Xbox.B)) {
+            //Robot.limelightVisionTarget.setLed(true);
             if (Robot.limelightVisionTarget.isValidVisionTarget) {
                 if (Robot.limelightVisionTarget.targetOffsetAngle_Horizontal > 0) {
                     if (Robot.limelightVisionTarget.targetOffsetAngle_Horizontal > SLOW_ZONE) {
@@ -45,6 +46,7 @@ public class Turret {
                     }
                 }
             } else {
+                //Robot.limelightVisionTarget.setLed(false);
                 turretMotor.set(ControlMode.PercentOutput, HOLD_POSITION);
             }
         } else {
