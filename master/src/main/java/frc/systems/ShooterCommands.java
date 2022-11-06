@@ -27,7 +27,7 @@ public class ShooterCommands {
 
     private static SoftwareTimer shootTimer;
 
-    public final static double highShooterPower = -0.55;// high power can range from 0.9 to 1.0 at a full battery
+    public final static double highShooterPower = -0.3;// high power can range from 0.9 to 1.0 at a full battery
 
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
@@ -193,7 +193,7 @@ public class ShooterCommands {
                 break;
             case 1:
                 shootTimer.setTimer(1.25);
-                shooterMotor.set(-0.7);   //highShooterPower);
+                shooterMotor.set(-0.65);   //highShooterPower);
                 stepShooter++;
                 break;
             case 2:
